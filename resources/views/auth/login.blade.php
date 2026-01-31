@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="px-3 py-5 bg-body-tertiary rounded shadow" style="width: 325px; min-width: 325px; height: 400px; min-height: 400px;">
             <h1 class="text-center mb-3">
-                <i class="bi bi-mortarboard-fill text-black bg-warning py-1 px-2 rounded"></i>
+                <i class="bi bi-journal-bookmark text-black bg-warning py-1 px-2 rounded"></i>
             </h1>
             {{-- <hr> --}}
             <h4 class="mb-3 text-center">Login</h4>
