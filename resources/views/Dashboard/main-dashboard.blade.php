@@ -30,7 +30,7 @@
                 </div>
                 <div class="tab-pane fade" id="borrow-return-tab-pane" role="tabpanel" aria-labelledby="borrow-return-tab"
                     tabindex="0">
-                    borrow and return
+                    @include('dashboard.borrow-return')
                 </div>
             </div>
         </div>
