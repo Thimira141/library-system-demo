@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
 });
 
+// set global access point to message models
+import { showModal, showConfirmModal } from './message_models';
+window.showModal = showModal;
+window.showConfirmModal = showConfirmModal;
+
+
 // date time live update
 const dtReceiveElement = document.getElementById('date-time-live-update');
 if (dtReceiveElement) {

@@ -1,4 +1,4 @@
-import { Modal } from 'bootstrap';
+import { showModal, showConfirmModal } from "./message_models";
 
 export default function initAjaxForms() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -53,38 +53,6 @@ async function submitAjaxForm(form) {
     } finally {
         if (loader) loader.classList.add('d-none');
     }
-}
-
-function showModal(type, message) {
-    const modalBody = document.getElementById('feedbackModalBody');
-    const modalTitle = document.getElementById('feedbackModalLabel');
-
-    modalTitle.textContent = type === 'success' ? 'Success' : 'Error';
-    modalTitle.className = 'modal-title text-' + type;
-
-    modalBody.textContent = message;
-    modalBody.className = 'modal-body text-' + type;
-
-    const feedbackModal = new Modal(document.getElementById('feedbackModal'));
-    feedbackModal.show();
-}
-
-function showConfirmModal(message, onConfirm) {
-    const modalBody = document.getElementById('confirmModalBody');
-    modalBody.textContent = message;
-
-    const modalElement = document.getElementById('confirmModal');
-    const confirmModal = new Modal(modalElement);
-
-    const proceedBtn = document.getElementById('confirmModalProceed');
-    const handler = () => {
-        onConfirm();
-        confirmModal.hide();
-        proceedBtn.removeEventListener('click', handler);
-    };
-    proceedBtn.addEventListener('click', handler);
-
-    confirmModal.show();
 }
 
 function clearFormErrors(form) {
