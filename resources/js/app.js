@@ -17,20 +17,7 @@ import { showModal, showConfirmModal } from './message_models';
 window.showModal = showModal;
 window.showConfirmModal = showConfirmModal;
 
-
-// date time live update
-const dtReceiveElement = document.getElementById('date-time-live-update');
-if (dtReceiveElement) {
-    setInterval(() => {
-        const dt = new Date();
-        dtReceiveElement.innerText = dt.toLocaleString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-    }, 1000);
-}
+// import commonly used functions
+import * as utility from './utility-functions'
+utility.startDateTimeLiveUpdate('date-time-live-update');
+utility.IncludeExcludeIgnoreButton('.iei-btn');

@@ -3,14 +3,15 @@
         <div class="col-6">
             <ul class="nav navbar-nav nav-pills">
                 <li class="nav-item mx-1 px-1">
-                    <a class="nav-link {{ request()->routeIs('dashboard-main') ? 'active' : '' }}" href="#"
-                        aria-current="page">
+                    <a class="nav-link {{ request()->routeIs('dashboard-main') ? 'active' : '' }}"
+                        href="{{ route('dashboard-main') }}" aria-current="page">
                         <i class="bi bi-clipboard-data me-1"></i>
                         Dashboard
                     </a>
                 </li>
                 <li class="nav-item mx-1 px-1">
-                    <a class="nav-link disabled" href="#">
+                    <a class="nav-link {{ request()->routeIs('books-main-list') ? 'active' : '' }}"
+                        href="{{ route('books-main-list') }}">
                         <i class="bi bi-journals me-1"></i>
                         Books
                     </a>

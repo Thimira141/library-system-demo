@@ -13,4 +13,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // view dashboard
     Route::get('/dashboard', fn() => view('dashboard.main-dashboard'))->name('dashboard-main');
+    // books section
+    Route::get('/books', fn() => view('books.main-list'))->name('books-main-list');
+    Route::get('/books/new', fn() => view('books.new-book'))->name('books-new-book');
+    Route::get('/books/view', fn() => view('books.view-book'))->name('books-view-book');
 });
