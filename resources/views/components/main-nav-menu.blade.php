@@ -17,7 +17,8 @@
                     </a>
                 </li>
                 <li class="nav-item mx-1 px-1">
-                    <a class="nav-link disabled" href="#">
+                    <a class="nav-link {{ request()->routeIs('members*') ? 'active' : '' }}"
+                        href="{{ route('members-main-list') }}">
                         <i class="bi bi-people-fill me-1"></i>
                         Members
                     </a>

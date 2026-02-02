@@ -17,4 +17,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/books', fn() => view('books.main-list'))->name('books-main-list');
     Route::get('/books/new', fn() => view('books.new-book'))->name('books-new-book');
     Route::get('/books/view', fn() => view('books.view-book'))->name('books-view-book');
+    // members section
+    Route::get('/members', fn() => view('members.main-list'))->name('members-main-list');
+    Route::get('/members/new', fn() => view('members.new-member'))->name('members-new-member');
+    Route::get('/members/view', fn() => view('members.view-member'))->name('members-view-member');
 });
