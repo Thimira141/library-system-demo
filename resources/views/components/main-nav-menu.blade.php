@@ -10,7 +10,7 @@
                     </a>
                 </li>
                 <li class="nav-item mx-1 px-1">
-                    <a class="nav-link {{ request()->routeIs('books-main-list') ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->routeIs('books*') ? 'active' : '' }}"
                         href="{{ route('books-main-list') }}">
                         <i class="bi bi-journals me-1"></i>
                         Books
