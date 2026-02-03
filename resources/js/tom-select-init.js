@@ -7,7 +7,7 @@ import TomSelect from "tom-select";
  */
 export function initTomSelect(selector, options = {}) {
     const defaultOptions = {
-        plugins: ['remove_button'],
+        plugins: ['remove_button', 'dropdown_input'],
         placeholder: "Select options",
         create: false,
     };

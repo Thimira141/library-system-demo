@@ -26,14 +26,22 @@ utility.IncludeExcludeIgnoreButton('.iei-btn');
 // import tom-select and setup init-s
 import { initTomSelect } from "./tom-select-init";
 document.addEventListener("DOMContentLoaded", function () {
-    // Example: categories multi-select
+    // categories multi-select
     initTomSelect("#book_categories", {
         placeholder: "Select categories",
+        valueField: "id", labelField: "category_name", searchField: "category_name",
+        preload: true,
+        load: (query, callback) => {
+            fetch(`/ajax/category?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(json => { callback(json); })
+                .catch(() => { callback(); });
+        }
     });
 
     // Example: authors multi-select
-    initTomSelect("#authors", {
-        placeholder: "Select authors",
-        maxItems: 1, // single select
-    });
+    // initTomSelect("#authors", {
+    //     placeholder: "Select authors",
+    //     maxItems: 1, // single select
+    // });
 });
