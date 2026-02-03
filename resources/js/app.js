@@ -19,5 +19,6 @@ window.showConfirmModal = showConfirmModal;
 
 // import commonly used functions
 import * as utility from './utility-functions'
+window.utility = utility; // expose utility function globally
 utility.startDateTimeLiveUpdate('date-time-live-update');
 utility.IncludeExcludeIgnoreButton('.iei-btn');

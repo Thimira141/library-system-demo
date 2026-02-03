@@ -56,4 +56,17 @@ export function IncludeExcludeIgnoreButton(elementIdentifier) {
     });
 }
 
+/**
+ * previewing an selected(uploaded) image
+ * @param {HTMLFormElement} element
+ */
+export function previewSelectedImage(element) {
+    if (element.files && element.files[0]) {
+        const imgUrl = URL.createObjectURL(element.files[0]);
+        const targetImg = document.querySelector(element.dataset.targetImg);
+        if (targetImg) {
+            targetImg.src = imgUrl;
+        }
+    }
+}
 
