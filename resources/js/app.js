@@ -22,3 +22,18 @@ import * as utility from './utility-functions'
 window.utility = utility; // expose utility function globally
 utility.startDateTimeLiveUpdate('date-time-live-update');
 utility.IncludeExcludeIgnoreButton('.iei-btn');
+
+// import tom-select and setup init-s
+import { initTomSelect } from "./tom-select-init";
+document.addEventListener("DOMContentLoaded", function () {
+    // Example: categories multi-select
+    initTomSelect("#book_categories", {
+        placeholder: "Select categories",
+    });
+
+    // Example: authors multi-select
+    initTomSelect("#authors", {
+        placeholder: "Select authors",
+        maxItems: 1, // single select
+    });
+});
