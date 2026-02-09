@@ -62,7 +62,7 @@ function clearFormErrors(form) {
 
 function showInvalidateData(form, errorBag) {
     Object.keys(errorBag).forEach(field => {
-        const input = form.querySelector(`[name="${field}"]`);
+        const input = form.querySelector(`[name="${field}"], [id="${field}"]`);
         if (input) {
             input.classList.add('is-invalid');
             const errorDiv = document.createElement('div');
