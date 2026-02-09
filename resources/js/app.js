@@ -45,3 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
     //     maxItems: 1, // single select
     // });
 });
+
+// import DataTable and its inits
+import $ from 'jquery';
+import 'datatables.net-bs5';
+import 'datatables.net-responsive-bs5';
+
+// expose globally if needed
+window.$ = $;
+window.jQuery = $;
+
+import './books-datatable';
