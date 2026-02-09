@@ -36,3 +36,9 @@
     background-color: var(--ts-active-bg);
     color: var(--ts-active-color);
 }
+
+/* cover image action buttons visibility control */
+.cover-image-action-btn-hover-cover:hover .cover-image-action-btn {
+  opacity: 1 !important;
+  transition: opacity 0.3s ease;
+}
