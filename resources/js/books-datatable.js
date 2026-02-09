@@ -27,6 +27,7 @@ $(document).ready(function () {
                     return `<img src="/storage/${data}"
                                 alt="${row.book_title}"
                                 class="img-thumbnail"
+                                onerror="this.src='${window.routes.bookImgPlaceholder}'"
                                 style="width:80px;height:auto;">`;
                 }
             },
