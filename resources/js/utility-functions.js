@@ -70,3 +70,29 @@ export function previewSelectedImage(element) {
     }
 }
 
+/**
+ * Trigger Delete form on Data-table
+ * @param {string} form_selector
+ * @param {string} dt_selector
+ * @param {HTMLElement} element
+ */
+export function handleDTDeleteRecord(form_selector, dt_selector, element) {
+    const form = document.querySelector(form_selector);
+    const hiddenInput = form.querySelector('#table-selector');
+
+    // Set the form action to the delete endpoint
+    form.setAttribute('action', element.dataset.action);
+
+    // Set the hidden input value to the book ID
+    hiddenInput.value = element.dataset.id;
+
+    // Submit via your ajax.js handler
+    form.dispatchEvent(new Event('submit', { bubbles: true }));
+
+    // After ajax completes, reload DataTable
+    form.addEventListener('ajax:success', () => {
+        if ($.fn.DataTable.isDataTable(dt_selector)) {
+            $(dt_selector).DataTable().ajax.reload(null, false);
+        }
+    }, { once: true });
+}
