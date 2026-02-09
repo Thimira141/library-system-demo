@@ -44,6 +44,8 @@ async function submitAjaxForm(form) {
             if (data.redirect) {
                 setTimeout(() => window.location.href = data.redirect, 1500);
             }
+            // Dispatch custom event so listeners can hook into it
+            form.dispatchEvent(new CustomEvent('ajax:success', { detail: data }));
         } else {
             showModal('danger', data.message || 'Something went wrong.');
             if (data.status === 'validateFail') showInvalidateData(form, data.errorBag);
