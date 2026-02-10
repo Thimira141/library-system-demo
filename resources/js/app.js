@@ -56,3 +56,4 @@ window.$ = $;
 window.jQuery = $;
 
 import './books-datatable';
+import './members-datatable'

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Books\BooksController;
 use App\Http\Controllers\Books\CategoryController;
+use App\Http\Controllers\Members\MemberController;
 
 Route::get('/', [AuthController::class, 'showLogin']);
 // login
@@ -26,9 +27,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/books/save-edit/{book_id}', [BooksController::class, 'saveEditBook'])->name('books-save-edit-book');
     Route::delete('/books/delete/{book_id}', [BooksController::class, 'deleteBook'])->name('books-delete-book');
     // members section
-    Route::get('/members', fn() => view('members.main-list'))->name('members-main-list');
+    Route::get('/members', [MemberController::class, 'viewMemberDashboard'])->name('members-main-list');
+    Route::get('/members/data', [MemberController::class, 'MembersDashboardDataHandler_AJAX'])->name('members-main-list-get');
+    Route::post('/members/data', [MemberController::class, 'MembersDashboardDataHandler_AJAX'])->name('members-main-list-post');
     Route::get('/members/new', fn() => view('members.new-member'))->name('members-new-member');
-    Route::get('/members/view', fn() => view('members.view-member'))->name('members-view-member');
+    Route::post('/members/new-member', [MemberController::class, 'createMember'])->name('members-create-new-member');
+    Route::get('/members/view/{member_id}', [MemberController::class, 'viewMember'])->name('members-view-member');
+    Route::get('/members/edit/{member_id}', [MemberController::class, 'viewEditMember'])->name('members-edit-member');
+    Route::post('/members/save-edit/{member_id}', [MemberController::class, 'saveEditMember'])->name('members-save-edit-member');
+    Route::delete('/members/delete/{member_id}', [MemberController::class, 'deleteMember'])->name('members-delete-member');
 
     // GET-ajax routes
     Route::get('/ajax/category', [CategoryController::class, 'getCategory']);

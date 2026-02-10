@@ -11,10 +11,10 @@
                 <h3>View Member</h3>
             </div>
             <div class="col-auto">
-                <button class="btn btn-primary rounded-pill">
+                <a class="btn btn-primary rounded-pill" href="{{ route('members-edit-member', $member->member_id) }}">
                     <i class="bi bi-pencil-square me-md-1 me-0"></i>
                     <span class="d-md-inline d-none">Edit</span>
-                </button>
+                </a>
             </div>
         </div>
         {{-- end title section --}}
@@ -42,17 +42,14 @@
             {{-- 1st tab pane --}}
             <div class="tab-pane fade show active" id="main-member-information-tab-pane" role="tabpanel"
                 aria-labelledby="main-member-information-tab" tabindex="0">
+                {{-- form area --}}
                 {{-- 1st row --}}
                 <div class="row mx-2 mb-3 bg-body-secondary rounded p-3">
                     {{-- cover image  --}}
                     <div class="col-lg-2 col-md-3 col-sm-12 p-2 bg-gradient rounded-4 d-flex align-items-center">
-                        <div class="w-100 h-auto position-relative">
-                            <img src="..." class="img-fluid rounded-top w-100" alt=""
-                                onerror="this.src='{{ asset('images/placeholder-image-member.svg') }}'" />
-                            <button class="btn btn-secondary position-absolute bottom-0 end-0 rounded-pill"
-                                title="Edit Cover Image">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
+                        <div class="w-100 h-auto position-relative cover-image-action-btn-hover-cover">
+                            <img src="{{ Storage::url($member->member_cover_img) }}" class="img-fluid rounded-top w-100"
+                                alt="" onerror="this.src='{{ asset('images/placeholder-image-member.svg') }}'" />
                         </div>
                     </div>
                     {{-- end cover image --}}
@@ -60,47 +57,61 @@
                         <div class="mb-3">
                             <label for="member-id" class="form-label pe-none">Member ID</label>
                             <input type="text" id="member-id" class="form-control pe-none" placeholder="Auto Generate"
-                                value="#AUTO-GENERATE" readonly />
+                                value="{{ $member->member_id }}" readonly />
                         </div>
                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <label for="member-nic-type" class="form-label pe-none">NIC Type</label>
-                                    <select class="form-select pe-none" name="member-nic-type" id="member-nic-type">
-                                        <option value="">NIC</option>
-                                        <option value="">Driving Permit</option>
-                                        <option value="">Post ID</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <label for="nic-number" class="form-label pe-none">NIC Number</label>
-                                    <input type="text" id="nic-number" class="form-control pe-none" placeholder="" />
-                                </div>
+                            <label for="member-name" class="form-label">Member Name</label>
+                            <input type="text" id="member-name" class="form-control pe-none" readonly name="member_name"
+                                value="{{ $member->member_name }}" placeholder="" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12 mb-3">
+                                <label for="member-nic-type" class="form-label">NIC Type</label>
+                                <select class="form-select" readonly name="member_nic_type" id="member-nic-type">
+                                    <option value="NIC" {{ $member->member_nic_type=='NIC' ? 'selected':null }}>NIC</option>
+                                    <option value="Driving Permit" {{ $member->member_nic_type=='Driving Permit' ? 'selected':null }}>Driving Permit</option>
+                                    <option value="Post ID" {{ $member->member_nic_type=='Post ID' ? 'selected':null }}>Post ID</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="member-dob" class="form-label pe-none">Date Of Birth</label>
-                            <input type="date" class="form-control pe-none" name="member-dob" id="member-dob" />
+                            <div class="col mb-3">
+                                <label for="member-nic-number" class="form-label">NIC Number</label>
+                                <input type="text" id="member-nic-number" readonly name="member_nic_number"
+                                    value="{{ $member->member_nic_number }}" class="form-control pe-none" placeholder="" />
+                            </div>
                         </div>
                     </div>
                 </div>
                 {{-- 2nd row --}}
                 <div class="row mx-2 mb-3 bg-body-secondary rounded p-3">
-                    <div class="mb-3">
-                        <label for="member-email" class="form-label pe-none">Email</label>
-                        <input type="email" class="form-control pe-none" name="member-email" id="member-email" />
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label for="member-dob" class="form-label">Date Of Birth</label>
+                            <input type="date" class="form-control pe-none" readonly name="member_dob"
+                                value="{{ $member->member_dob }}" id="member-dob" />
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label for="member-added" class="form-label">Member Added</label>
+                            <input type="date" class="form-control pe-none" readonly name="member_added"
+                                value="{{ $member->member_added }}" id="member-added" />
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label for="member-tel" class="form-label pe-none">Telephone / Mobile</label>
-                        <input type="tel" class="form-control pe-none" name="member-tel" id="member-tel" />
+                        <label for="member-email" class="form-label">Email</label>
+                        <input type="email" class="form-control pe-none" readonly name="member_email"
+                            value="{{ $member->member_email }}" id="member-email" />
                     </div>
                     <div class="mb-3">
-                        <label for="member-address" class="form-label pe-none">Address</label>
-                        <textarea class="form-control pe-none" name="member-address" id="member-address" rows="3"></textarea>
+                        <label for="member-tel" class="form-label">Telephone / Mobile</label>
+                        <input type="tel" class="form-control pe-none" readonly name="member_tel"
+                            value="{{ $member->member_tel }}" id="member-tel" />
                     </div>
                     <div class="mb-3">
-                        <label for="member-remarks" class="form-label pe-none">Remarks</label>
-                        <textarea class="form-control pe-none" name="member-remarks" id="member-remarks" rows="3"></textarea>
+                        <label for="member-address" class="form-label">Address</label>
+                        <textarea class="form-control pe-none" readonly name="member_address" id="member-address" rows="3">{{ $member->member_address }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="member-remarks" class="form-label">Remarks</label>
+                        <textarea class="form-control pe-none" readonly name="member_remarks" id="member-remarks" rows="3">{{ $member->member_remarks }}</textarea>
                     </div>
                 </div>
                 {{-- end form area --}}
@@ -122,12 +133,7 @@
                         </thead>
                         <tbody>
                             <tr class="">
-                                <td scope="row">R1C1</td>
-                                <td>abc def</td>
-                                <td>2025-02-02</td>
-                                <td>2025-03-01</td>
-                                <td>2025-03-04</td>
-                                <td>3 days late</td>
+                                <td class="text-center" colspan="6" scope="row">No Data</td>
                             </tr>
                         </tbody>
                     </table>
