@@ -12,7 +12,7 @@ Route::controller(AuthController::class)
     ->prefix('auth')
     ->group(function () {
         Route::get('/login', 'showLogin')->name('login');
-        Route::post('/login-submit', 'lo;gin')->name('login-submit');
+        Route::post('/login-submit', 'login')->name('login-submit');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 // dashboard
