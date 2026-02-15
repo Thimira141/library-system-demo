@@ -35,4 +35,10 @@ class Book extends Model
     {
         return $this->belongsToMany(Category::class, 'book_category');
     }
+
+    public function borrowRecords()
+    {
+        return $this->hasMany(BooksBorrowReturn::class);
+    }
+
 }

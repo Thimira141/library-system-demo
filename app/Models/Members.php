@@ -34,4 +34,10 @@ class Members extends Model
             $member->member_id = 'MEMBER-' . now()->format('YmdHis') . '-' . Str::random(4);
         });
     }
+
+    public function borrowRecords()
+    {
+        return $this->hasMany(BooksBorrowReturn::class);
+    }
+
 }
