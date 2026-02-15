@@ -144,12 +144,16 @@
     <div class="col-md-4 col-sm-12 py-1">
         <div class="p-2 h-100 w-100 border shadow-sm rounded">
             <div class="mb-3">
-                <label for="borrowed-date" class="form-label">Borrowed Date</label>
-                <input type="date" class="form-control" name="borrowed-date" id="borrowed-date" />
+                <label for="borrowed_date" class="form-label">Borrowed Date</label>
+                <input type="date" class="form-control" name="borrowed_date" id="borrowed_date" />
             </div>
             <div class="mb-3">
-                <label for="Return-date" class="form-label">Return Date</label>
-                <input type="date" class="form-control" name="Return-date" id="Return-date" />
+                <label for="return_promised_date" class="form-label">Return Date</label>
+                <input type="date" class="form-control" name="return_promised_date" id="return_promised_date" />
+            </div>
+            <div class="mb-3">
+                <label for="remarks" class="form-label">Remarks</label>
+                <textarea name="" id=""></textarea>
             </div>
             <div class="mb-3">
                 {{-- <label class="form-label">Return Date</label> --}}
