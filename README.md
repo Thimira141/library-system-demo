@@ -88,10 +88,18 @@ Use Pest to execute the test suite:
 - Modify database settings in `.env`.
 - Add new features or models following Laravel conventions.
 
+## Login
+
+Once the database setup is finished, you can log in using the default account created by the application:
+
+- **Name:** Thimira Dilshan  
+- **Email:** <thimira_dilshan@demo.com>
+- **Password:** password
+
 ## 📄 License
 
 [This project is provided for educational and personal use only. Commercial use or claiming ownership is prohibited](LICENSE).
 
 ---
 
->NOTE: PROJECT STILL UNDER-DEVELOPMENTS
+>NOTE: PROJECT STILL UNDER-DEVELOPMENTS, SOME PARTS MAY NOT WORKING OR DISABLED
