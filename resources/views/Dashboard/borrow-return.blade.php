@@ -15,7 +15,7 @@
         </div>
         {{-- end search box --}}
         {{-- filter --}}
-        <div class="row mx-2">
+        <div class="row mx-2 d-none">
             <div class="col">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="book-search-filter" id="book-search-filter-id"
@@ -49,7 +49,7 @@
         </div>
         {{-- end search box --}}
         {{-- filter --}}
-        <div class="row mx-2">
+        <div class="row mx-2 d-none">
             <div class="col">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="member-search-filter"
@@ -71,25 +71,8 @@
 </div>
 {{-- end book / member data input --}}
 
-{{-- action buttons --}}
-<div class="row mb-3 justify-content-center border-top">
-    <div class="col-auto">
-        <button class="btn btn-lg btn-primary mt-3 mx-sm-1 mx-md-2">
-            <i class="bi bi-journal-arrow-up me-1"></i>
-            Book Borrow
-        </button>
-    </div>
-    <div class="col-auto">
-        <button class="btn btn-lg btn-success mt-3 mx-sm-1 mx-md-2">
-            <i class="bi bi-journal-arrow-down me-1"></i>
-            Book Return
-        </button>
-    </div>
-</div>
-{{-- end action buttons --}}
-
 {{-- book / member data area --}}
-<div class="row m-3 justify-content-between">
+<div class="row m-3 justify-content-between mb-3 pt-3 border-top">
     <div class="col-md-4 col-sm-12 ">
         <div class="card mb-3 h-100 w-100 py-1 border-0" style="max-width: 540px;">
             <div class="row g-0 border h-100 p-2 shadow-sm rounded">
@@ -153,7 +136,7 @@
             </div>
             <div class="mb-3">
                 <label for="remarks" class="form-label">Remarks</label>
-                <textarea name="" id=""></textarea>
+                <textarea name="" id="" class="form-control"></textarea>
             </div>
             <div class="mb-3">
                 {{-- <label class="form-label">Return Date</label> --}}
@@ -163,3 +146,64 @@
     </div>
 </div>
 {{-- end book / member data area --}}
+
+<div class="row border-top mx-3 py-3">
+    <div class="col mb-3 border p-2 rounded shadow-sm">
+        <div class="row">
+            <p><i class="bi bi-clock-history me-1"></i>Similar Transactions</p>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Transaction ID</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="">
+                            <td>TR201234-FDF</td>
+                            <td>Borrowed</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary">
+                                    <i class="bi bi-arrow-up-right-square"></i>
+                                    <span class="d-none d-md-inline ">Open</span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td>TR201154-FDF</td>
+                            <td>Returned</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary">
+                                    <i class="bi bi-arrow-up-right-square"></i>
+                                    <span class="d-none d-md-inline ">Open</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-auto mb-3">
+        {{-- action buttons --}}
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-auto">
+                <button class="btn btn-lg btn-primary mt-3 mx-sm-1 mx-md-2">
+                    <i class="bi bi-journal-arrow-up me-1"></i>
+                    Book Borrow
+                </button>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-lg btn-success mt-3 mx-sm-1 mx-md-2">
+                    <i class="bi bi-journal-arrow-down me-1"></i>
+                    Book Return
+                </button>
+            </div>
+        </div>
+        {{-- end action buttons --}}
+    </div>
+</div>
