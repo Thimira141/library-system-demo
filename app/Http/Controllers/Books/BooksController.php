@@ -157,7 +157,7 @@ class BooksController extends Controller
         $book->book_remarks = $validated['book_remarks'] ?? null;
 
         // Handle cover image replacement
-        if ($validated['book_cover_img']) {
+        if (!empty($validated['book_cover_img'])) {
             try {
                 if ($book->book_cover_img && Storage::disk('public')->exists($book->book_cover_img)) {
                     Storage::disk('public')->delete($book->book_cover_img);

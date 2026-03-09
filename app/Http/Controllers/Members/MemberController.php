@@ -61,15 +61,15 @@ class MemberController extends Controller
         $validated = $validate->validated();
         try {
             $member = Members::create([
-                $validated['member_name'],
-                $validated['member_nic_type'],
-                $validated['member_nic_number'],
-                $validated['member_dob'],
-                $validated['member_added'],
-                $validated['member_email'],
-                $validated['member_tel'],
-                $validated['member_address'],
-                $validated['member_remarks']
+                'member_name' => $validated['member_name'],
+                'member_nic_type' => $validated['member_nic_type'],
+                'member_nic_number' => $validated['member_nic_number'],
+                'member_dob' => $validated['member_dob'],
+                'member_added' => $validated['member_added'],
+                'member_email' => $validated['member_email'],
+                'member_tel' => $validated['member_tel'],
+                'member_address' => $validated['member_address'],
+                'member_remarks' => $validated['member_remarks']
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -79,7 +79,7 @@ class MemberController extends Controller
             ], 500);
         }
         // store file
-        if ($validated['member_cover_img']) {
+        if (!empty($validated['member_cover_img'])) {
             try {
                 $file = $validated['member_cover_img'];
                 $extension = $file->getClientOriginalExtension();
@@ -172,7 +172,7 @@ class MemberController extends Controller
         $member->member_remarks = $validated['member_remarks'] ?? null;
         // update file (if has)
         // Handle cover image replacement
-        if ($validated['member_cover_img']) {
+        if (!empty($validated['member_cover_img'])) {
             try {
                 if ($member->member_cover_img && Storage::disk('public')->exists($member->member_cover_img)) {
                     Storage::disk('public')->delete($member->member_cover_img);
@@ -288,8 +288,8 @@ class MemberController extends Controller
                 : Rule::unique('members', 'member_name'), // create mode
             ],
             'member_nic_type' => [
-                // required, in([nic,driving,post-id,])
-                'required'
+                'required',
+                'in:NIC,Driving Permit,Post ID'
             ],
             'member_nic_number' => [
                 'required',
