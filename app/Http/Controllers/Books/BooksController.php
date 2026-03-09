@@ -21,33 +21,50 @@ class BooksController extends Controller
     }
     public function BooksDashboardDataHandler_AJAX(Request $request)
     {
-        $query = Book::with('categories');
+        // validate request before building query
+        $validate = Validator::make($request->all(), [
+            'include_categories' => 'array',
+            'include_categories.*' => 'integer|exists:categories,id',
+            'exclude_categories' => 'array',
+            'exclude_categories.*' => 'integer|exists:categories,id',
+        ]);
 
-        // Apply custom filters BEFORE DataTables takes over
-        if ($request->filled('include_categories')) {
-            $query->whereHas(
-                'categories',
-                fn($cat) =>
-                $cat->whereIn('id', $request->input('include_categories'))
-            );
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'validateFail',
+                'message' => 'Invalid filter parameters.',
+                'errorBag' => $validate->errors(),
+                'data' => [], // DataTables expects a "data" key even on error
+            ], 422);
         }
 
-        if ($request->filled('exclude_categories')) {
-            $query->whereDoesntHave(
-                'categories',
-                fn($cat) =>
-                $cat->whereIn('id', $request->input('exclude_categories'))
-            );
-        }
+        $validated = $validate->validated();
+
+        $query = Book::with('categories')
+            ->when(!empty($validated['include_categories']), function ($q) use ($validated) {
+                $q->whereHas(
+                    'categories',
+                    fn($cat) =>
+                    $cat->whereIn('id', $validated['include_categories'])
+                );
+            })
+            ->when(!empty($validated['exclude_categories']), function ($q) use ($validated) {
+                $q->whereDoesntHave(
+                    'categories',
+                    fn($cat) =>
+                    $cat->whereIn('id', $validated['exclude_categories'])
+                );
+            });
 
         return DataTables::of($query)
             ->addColumn(
                 'categories',
                 fn($book) =>
-                $book->categories->pluck('category_name')->join(', ')
+                $book->categories->pluck('category_name')->implode(', ')
             )
             ->make(true);
     }
+
 
     public function viewEditBook(string $book_id)
     {
@@ -70,62 +87,52 @@ class BooksController extends Controller
         if ($validate->fails()) {
             return response()->json([
                 'status' => 'validateFail',
-                'message' => 'Data Validate Failed!',
+                'message' => 'Data validation failed!',
                 'errorBag' => $validate->errors()
             ], 422);
         }
-        // store in db except the filepath
+
+        $validated = $validate->validated();
+
         try {
-            $book = Book::create($request->only([
-                'book_title',
-                'book_author',
-                'book_added',
-                'book_remarks'
-            ]));
-            // sync book categories
-            if ($request->has('book_categories')) {
-                $book->categories()->sync($request->input('book_categories'));
+            // store book
+            $book = Book::create([
+                'book_title' => $validated['book_title'],
+                'book_author' => $validated['book_author'],
+                'book_added' => $validated['book_added'],
+                'book_remarks' => $validated['book_remarks'] ?? null,
+            ]);
+
+            // sync categories if provided
+            if (!empty($validated['book_categories'])) {
+                $book->categories()->sync($validated['book_categories']);
             }
+
+            // handle file upload if present
+            if (!empty($validated['book_cover_img'])) {
+                $file = $validated['book_cover_img'];
+                $filename = $book->book_id . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('books', $filename, 'public');
+
+                $book->update(['book_cover_img' => $path]);
+            }
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Database error occurred.',
+                'message' => 'Database or file error occurred.',
                 'error' => $e->getMessage()
             ], 500);
         }
 
-        // handle file upload
-        if ($request->hasFile('book_cover_img')) {
-            try {
-                $file = $request->file('book_cover_img');
-                $extension = $file->getClientOriginalExtension();
-
-                // build path using book_id
-                $filepath = (string) 'books/' . $book->book_id . '.' . $extension;
-
-                // store file in storage/app/public/books
-                $file->storeAs('books', $book->book_id . '.' . $extension, 'public');
-
-                // update book record with filepath
-                $book->update([
-                    'book_cover_img' => $filepath
-                ]);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'File upload failed.',
-                    'error' => $e->getMessage()
-                ], 500);
-            }
-        }
-
         return response()->json([
             'status' => 'success',
-            'message' => 'Data Store Success!',
+            'message' => 'Book created successfully!',
             'book' => $book->toArray(),
             'redirect' => route('books-view-book', (string) $book->book_id)
         ], 200);
     }
+
 
     public function saveEditBook(Request $request, string $book_id)
     {
@@ -141,21 +148,23 @@ class BooksController extends Controller
             ], 422);
         }
 
+        $validated = $validate->validated();
+
         // Update basic fields
-        $book->book_title = $request->get('book_title');
-        $book->book_author = $request->get('book_author');
-        $book->book_added = $request->get('book_added');
-        $book->book_remarks = $request->get('book_remarks', null);
+        $book->book_title = $validated['book_title'];
+        $book->book_author = $validated['book_author'];
+        $book->book_added = $validated['book_added'];
+        $book->book_remarks = $validated['book_remarks'] ?? null;
 
         // Handle cover image replacement
-        if ($request->hasFile('book_cover_img')) {
+        if ($validated['book_cover_img']) {
             try {
                 if ($book->book_cover_img && Storage::disk('public')->exists($book->book_cover_img)) {
                     Storage::disk('public')->delete($book->book_cover_img);
                 }
 
-                $extension = $request->file('book_cover_img')->getClientOriginalExtension();
-                $path = $request->file('book_cover_img')
+                $extension = $validated['book_cover_img']->getClientOriginalExtension();
+                $path = $validated['book_cover_img']
                     ->storeAs('books', $book->book_id . '.' . $extension, 'public');
 
                 $book->book_cover_img = $path;
@@ -171,12 +180,12 @@ class BooksController extends Controller
         $book->save();
 
         // Sync categories (pivot table)
-        $book->categories()->sync($request->get('book_categories', []));
-        if ($request->filled('categories')) {
-        } else {
-            // If no categories selected, detach all
-            // $book->categories()->detach();
-        }
+        $book->categories()->sync($validated['book_categories'] ?? []);
+        // if ($request->filled('categories')) {
+        // } else {
+        //     // If no categories selected, detach all
+        //     // $book->categories()->detach();
+        // }
 
         return response()->json([
             'status' => 'success',
@@ -189,8 +198,27 @@ class BooksController extends Controller
 
     public function deleteBook(Request $request)
     {
+        // data validation
+        $validate = Validator::make(
+            $request->all(),
+            ['book_id' => 'required|string|exists:books,book_id'],
+            [],
+            ['book_id' => 'BookID']
+        );
+        if ($validate->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'validateFail',
+                    'errorBag' => $validate->errors()->toArray(),
+                    'message' => 'Data validation failed!',
+                ], 401);
+            }
+            return back()->withErrors($validate->errors()->toArray());
+        }
+        $validated = $validate->validated();
         try {
-            $book = Book::where('book_id', $request->get('book_id'))->firstOrFail();
+            // TODO: make data mark as deleted instead of deleting it
+            $book = Book::where('book_id', $validated['book_id'])->firstOrFail();
 
             // Delete file if exists
             if ($book->book_cover_img) {

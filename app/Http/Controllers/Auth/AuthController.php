@@ -82,10 +82,12 @@ class AuthController extends Controller
             return back()->withErrors($validate->errors()->toArray());
         }
 
+        $validated = $validate->validated();
+
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         if ($request->ajax()) {

@@ -58,18 +58,19 @@ class MemberController extends Controller
             ], 422);
         }
         // store data via model
+        $validated = $validate->validated();
         try {
-            $member = Members::create($request->only([
-                'member_name',
-                'member_nic_type',
-                'member_nic_number',
-                'member_dob',
-                'member_added',
-                'member_email',
-                'member_tel',
-                'member_address',
-                'member_remarks'
-            ]));
+            $member = Members::create([
+                $validated['member_name'],
+                $validated['member_nic_type'],
+                $validated['member_nic_number'],
+                $validated['member_dob'],
+                $validated['member_added'],
+                $validated['member_email'],
+                $validated['member_tel'],
+                $validated['member_address'],
+                $validated['member_remarks']
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -78,9 +79,9 @@ class MemberController extends Controller
             ], 500);
         }
         // store file
-        if ($request->hasFile('member_cover_img')) {
+        if ($validated['member_cover_img']) {
             try {
-                $file = $request->file('member_cover_img');
+                $file = $validated['member_cover_img'];
                 $extension = $file->getClientOriginalExtension();
 
                 // build path using member_id
@@ -158,26 +159,27 @@ class MemberController extends Controller
                 'errorBag' => $validate->errors()
             ], 422);
         }
+        $validated = $validate->validated();
         // update member fields
-        $member->member_name = $request->get('member_name');
-        $member->member_nic_type = $request->get('member_nic_type');
-        $member->member_nic_number = $request->get('member_nic_number');
-        $member->member_dob = $request->get('member_dob');
-        $member->member_added = $request->get('member_added');
-        $member->member_email = $request->get('member_email');
-        $member->member_tel = $request->get('member_tel');
-        $member->member_address = $request->get('member_address');
-        $member->member_remarks = $request->get('member_remarks', null);
+        $member->member_name = $validated['member_name'];
+        $member->member_nic_type = $validated['member_nic_type'];
+        $member->member_nic_number = $validated['member_nic_number'];
+        $member->member_dob = $validated['member_dob'];
+        $member->member_added = $validated['member_added'];
+        $member->member_email = $validated['member_email'];
+        $member->member_tel = $validated['member_tel'];
+        $member->member_address = $validated['member_address'];
+        $member->member_remarks = $validated['member_remarks'] ?? null;
         // update file (if has)
         // Handle cover image replacement
-        if ($request->hasFile('member_cover_img')) {
+        if ($validated['member_cover_img']) {
             try {
                 if ($member->member_cover_img && Storage::disk('public')->exists($member->member_cover_img)) {
                     Storage::disk('public')->delete($member->member_cover_img);
                 }
 
-                $extension = $request->file('member_cover_img')->getClientOriginalExtension();
-                $path = $request->file('member_cover_img')
+                $extension = $validated['member_cover_img']->getClientOriginalExtension();
+                $path = $validated['member_cover_img']
                     ->storeAs('members', $member->member_id . '.' . $extension, 'public');
 
                 $member->member_cover_img = $path;
@@ -201,13 +203,32 @@ class MemberController extends Controller
     /**
      * Summary of deleteMember
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      * @author Thimira Dilshan <thimirad865@gmail.com>
      */
     public function deleteMember(Request $request)
     {
+        // data validation
+        $validate = Validator::make(
+            $request->all(),
+            ['member_id' => 'required|string|exists:members,member_id'],
+            [],
+            ['member_id' => 'MemberID']
+        );
+        if ($validate->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'validateFail',
+                    'errorBag' => $validate->errors()->toArray(),
+                    'message' => 'Data validation failed!',
+                ], 401);
+            }
+            return back()->withErrors($validate->errors()->toArray());
+        }
+        $validated = $validate->validated();
         try {
-            $member = Members::where('member_id', $request->get('member_id'))->firstOrFail();
+            // TODO: make data mark as deleted instead of deleting it
+            $member = Members::where('member_id', $validated['member_id'])->firstOrFail();
 
             // Delete file if exists
             if ($member->member_cover_img) {
