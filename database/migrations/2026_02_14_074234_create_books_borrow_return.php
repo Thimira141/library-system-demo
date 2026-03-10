@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('books_borrow_return', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_id')->unique();
             $table->unsignedBigInteger('book_id')->nullable(true);
             $table->unsignedBigInteger('member_id')->nullable(true);
             $table->date('borrowed_date');
