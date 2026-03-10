@@ -265,6 +265,48 @@ class BooksController extends Controller
         return view('books.view-book', compact('book'));
     }
 
+    public function search_books_AJAX(Request $request)
+    {
+        $validate = Validator::make($request->all(), ['q'=>'string|nullable'], [], ['q' => 'Search Text']);
+        if ($validate->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'validateFail',
+                    'errorBag' => $validate->errors()->toArray(),
+                    'message' => 'Data validation failed!',
+                ], 401);
+            }
+            return back()->withErrors($validate->errors()->toArray());
+        }
+        $validated = $validate->validated();
+        $query = Book::query();
+        if ($validated['q']) {
+            $query->whereAny(['book_id', 'book_title'], 'like', "%{$validated['q']}%");
+        }
+        $books = $query->select(['id', 'book_id', 'book_title', 'book_author', 'book_cover_img'])->limit(20)->get();
+        return response()->json($books);
+    }
+
+    public function load_book_AJAX($book_id)
+    {
+        // load book from model
+        $book = Book::where('book_id', $book_id)->firstOrFail([
+            'id', 'book_id', 'book_title', 'book_author', 'book_cover_img', 'book_remarks'
+        ]);
+        if ($book) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Book data found!',
+                'book' => $book->toArray()
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Book data not found!'
+            ]);
+        }
+    }
+
     /**
      * handle data validation for this class
      * @param Request $request

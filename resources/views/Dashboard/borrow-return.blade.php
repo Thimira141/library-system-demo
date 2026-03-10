@@ -4,13 +4,10 @@
     <div class="col-md-6 col-sm-12">
         {{-- search box --}}
         <div class="row">
-            <div class="input-group mb-3">
-                <label class="form-label visually-hidden" id="book-data-input">Book</label>
-                <input type="text" class="form-control rounded-start-2" placeholder="Book information"
-                    id="book-data-input" aria-label="Book">
-                <button class="btn btn-outline-secondary text-primary-emphasis" type="button">
-                    <i class="bi bi-arrow-right-short"></i>
-                </button>
+            <div class="mb-3">
+                <label class="form-label visually-hidden" for="dashboard_borrow_and_return_book">Book</label>
+                <select id="dashboard_borrow_and_return_book" class="form-select w-100" placeholder="Book information"
+                    aria-label="Book"></select>
             </div>
         </div>
         {{-- end search box --}}
@@ -38,13 +35,10 @@
     <div class="col-md-6 col-sm-12">
         {{-- search box --}}
         <div class="row">
-            <div class="input-group mb-3">
-                <label class="form-label visually-hidden" id="member-data-input">Member</label>
-                <input type="text" class="form-control rounded-start-2" placeholder="Member information"
-                    id="member-data-input" aria-label="member">
-                <button class="btn btn-outline-secondary text-primary-emphasis" type="button">
-                    <i class="bi bi-arrow-right-short"></i>
-                </button>
+            <div class="mb-3">
+                <label class="form-label visually-hidden" for="dashboard_borrow_and_return_member">Member</label>
+                <select id="dashboard_borrow_and_return_member" class="form-select w-100"
+                    placeholder="Member information" aria-label="Member"></select>
             </div>
         </div>
         {{-- end search box --}}
@@ -75,23 +69,21 @@
 <div class="row m-3 justify-content-between mb-3 pt-3 border-top">
     <div class="col-md-4 col-sm-12 ">
         <div class="card mb-3 h-100 w-100 py-1 border-0" style="max-width: 540px;">
-            <div class="row g-0 border h-100 p-2 shadow-sm rounded">
+            <div class="row g-0 border h-100 p-2 shadow-sm rounded" id="dashboard-bnr-book-data-render">
                 <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start w-100" alt="cover-image"
+                    <img src="..." class="img-fluid rounded-start w-100 cover-img" alt="cover-image"
                         onerror="this.src='{{ asset('images/placeholder-image-book.svg') }}'">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">Book Name</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        <h5 class="card-title book-id">Book ID</h5>
+                        <h5 class="card-title book-title">Book Name</h5>
+                        <h5 class="card-title book-author">Book Name</h5>
+                        <p class="card-text book-summary">This is a wider card with supporting text below as a natural
+                            lead-in to
                             additional content. This content is a little bit longer.< book summary>
                         </p>
-                        <p class="card-text">
-                            <span class="badge bg-primary">Adventure</span>
-                            <span class="badge bg-primary">Romance</span>
-                            <span class="badge bg-primary">Slice of life</span>
-                        </p>
-                        <p>
+                        <p class="d-none">
                             <button class="btn btn-link">
                                 More
                                 <i class="bi bi-arrow-right-short ms-1"></i>
@@ -104,16 +96,17 @@
     </div>
     <div class="col-md-4 col-sm-12">
         <div class="card mb-3 h-100 w-100 py-1 border-0" style="max-width: 540px;">
-            <div class="row g-0 border h-100 px-2 shadow-sm rounded">
+            <div class="row g-0 border h-100 px-2 shadow-sm rounded" id="dashboard-bnr-member-data-render">
                 <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start w-100" alt="cover-image"
+                    <img src="..." class="img-fluid rounded-start w-100 cover-img" alt="cover-image"
                         onerror="this.src='{{ asset('images/placeholder-image-member.svg') }}'">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">Member Name</h5>
-                        <h5 class="card-title">#memberID</h5>
-                        <p>
+                        <h5 class="card-title member-name">Member Name</h5>
+                        <h5 class="card-title member-id">#memberID</h5>
+                        <h5 class="card-title member-email">member email</h5>
+                        <p class="d-none">
                             <button class="btn btn-link">
                                 More
                                 <i class="bi bi-arrow-right-short ms-1"></i>
@@ -188,22 +181,34 @@
             </div>
         </div>
     </div>
-    <div class="col-auto mb-3">
+    <div class="col-md-3 col-sm-12 mb-3">
         {{-- action buttons --}}
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-auto">
-                <button class="btn btn-lg btn-primary mt-3 mx-sm-1 mx-md-2">
+        <div class="row flex-column justify-content-center align-items-center mx-2 h-100 w-100">
+            <div class="col-12">
+                <button class="btn btn-lg btn-primary mt-3 mx-sm-1 mx-md-2 w-100">
                     <i class="bi bi-journal-arrow-up me-1"></i>
                     Book Borrow
                 </button>
             </div>
-            <div class="col-auto">
-                <button class="btn btn-lg btn-success mt-3 mx-sm-1 mx-md-2">
+            <div class="col-12">
+                <button class="btn btn-lg btn-success mt-3 mx-sm-1 mx-md-2 w-100">
                     <i class="bi bi-journal-arrow-down me-1"></i>
                     Book Return
+                </button>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-lg btn-info mt-3 mx-sm-1 mx-md-2 w-100">
+                    <i class="bi bi-calendar2-plus"></i>
+                    Extend Period
                 </button>
             </div>
         </div>
         {{-- end action buttons --}}
     </div>
 </div>
+<script>
+    window.routes = {
+        memberImgPlaceholder: @json(asset('images/placeholder-image-member.svg')),
+        bookImgPlaceholder: @json(asset('images/placeholder-image-book.svg'))
+    };
+</script>

@@ -96,3 +96,29 @@ export function handleDTDeleteRecord(form_selector, dt_selector, element) {
         }
     }, { once: true });
 }
+/**
+ * Show or hide a partial AJAX loader inside a container
+ *
+ * @param {string} selector - CSS selector for target elements
+ * @param {boolean} loaded - true = remove loader, false = add loader
+ */
+export function partialLoadingAjax(selector, loaded) {
+    const loaderHTML = `
+        <div class="position-absolute top-0 end-0 w-100 h-100 z-3 d-flex justify-content-center align-items-center ajax-loader-spinner" style="backdrop-filter: blur(1px)">
+            <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+        </div>
+    `;
+
+    document.querySelectorAll(selector).forEach(e => {
+        if (loaded) {
+            const existing = e.querySelector('.ajax-loader-spinner');
+            if (existing) existing.remove();
+        } else {
+            // Only add if not already present
+            if (!e.querySelector('.ajax-loader-spinner')) {
+                e.insertAdjacentHTML('beforeend', loaderHTML);
+            }
+        }
+    });
+}
+

@@ -23,6 +23,9 @@ window.utility = utility; // expose utility function globally
 utility.startDateTimeLiveUpdate('date-time-live-update');
 utility.IncludeExcludeIgnoreButton('.iei-btn');
 
+// import dashboard borrow-return
+import { BorrowReturnDashboardInit } from './borrow-return'
+
 // import tom-select and setup init-s
 import { initTomSelect } from "./tom-select-init";
 document.addEventListener("DOMContentLoaded", function () {
@@ -38,12 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(() => { callback(); });
         }
     });
-
-    // Example: authors multi-select
-    // initTomSelect("#authors", {
-    //     placeholder: "Select authors",
-    //     maxItems: 1, // single select
-    // });
+    // init from borrow return
+    BorrowReturnDashboardInit();
 });
 
 // import DataTable and its inits

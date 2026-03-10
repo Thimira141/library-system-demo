@@ -263,6 +263,60 @@ class MemberController extends Controller
     }
 
     /**
+     * Summary of search_members_AJAX
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
+    public function search_members_AJAX(Request $request)
+    {
+        $validate = Validator::make($request->all(), ['q' => 'string|nullable'], [], ['q' => 'Search Text']);
+        if ($validate->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'validateFail',
+                    'errorBag' => $validate->errors()->toArray(),
+                    'message' => 'Data validation failed!',
+                ], 401);
+            }
+            return back()->withErrors($validate->errors()->toArray());
+        }
+        $validated = $validate->validated();
+        $query = Members::query();
+        if ($validated['q']) {
+            $query->whereAny(['member_id', 'member_name', 'member_email'], 'like', "%{$validated['q']}%");
+        }
+        $members = $query->select(['id', 'member_id', 'member_name', 'member_email', 'member_cover_img'])->limit(20)->get();
+        return response()->json($members);
+    }
+
+    /**
+     * Summary of load_member_AJAX
+     * @param mixed $member_id
+     * @return \Illuminate\Http\JsonResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
+    public function load_member_AJAX($member_id)
+    {
+        // load member from model
+        $member = Members::where('member_id', $member_id)->firstOrFail([
+            'id', 'member_id', 'member_name', 'member_email', 'member_cover_img'
+        ]);
+        if ($member) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Member data found!',
+                'member' => $member->toArray()
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Member data not found!'
+            ]);
+        }
+    }
+
+    /**
      * Summary of ValidateData
      * @param Request $request
      * @param int|bool $id

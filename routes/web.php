@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/edit/{book_id}', 'viewEditBook')->name('books-edit-book');
             Route::post('/save-edit/{book_id}', 'saveEditBook')->name('books-save-edit-book');
             Route::delete('/delete/{book_id}', 'deleteBook')->name('books-delete-book');
+            Route::get('/ajax/dashboard/books', 'search_books_AJAX')->name('books-search-dashboard-ajax');
+            Route::get('/ajax/dashboard/book/{book_id}', 'load_book_AJAX')->name('books-load-dashboard-ajax');
         });
     // members section
     Route::controller(MemberController::class)
@@ -47,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/edit/{member_id}', 'viewEditMember')->name('members-edit-member');
             Route::post('/save-edit/{member_id}', 'saveEditMember')->name('members-save-edit-member');
             Route::delete('/delete/{member_id}', 'deleteMember')->name('members-delete-member');
+            Route::get('/ajax/dashboard/members', 'search_members_AJAX')->name('members-search-dashboard-ajax');
+            Route::get('/ajax/dashboard/member/{member_id}', 'load_member_AJAX')->name('members-load-dashboard-ajax');
         });
 
     // GET-ajax routes
