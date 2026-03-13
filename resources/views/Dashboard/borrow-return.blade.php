@@ -124,7 +124,7 @@
                 <input type="date" class="form-control" name="borrowed_date" id="borrowed_date" />
             </div>
             <div class="mb-3">
-                <label for="return_promised_date" class="form-label">Return Date</label>
+                <label for="return_promised_date" class="form-label">Returning Date</label>
                 <input type="date" class="form-control" name="return_promised_date" id="return_promised_date" />
             </div>
             <div class="mb-3">
