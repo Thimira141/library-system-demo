@@ -25,7 +25,7 @@ class BooksBorrowReturn extends Model
         parent::boot();
 
         static::creating(function ($BooksBorrowReturn) {
-            $BooksBorrowReturn->transaction_id_id = 'TRANS-' . now()->format('YmdHis') . '-' . Str::random(4);
+            $BooksBorrowReturn->transaction_id = 'TRANS-' . now()->format('YmdHis') . '-' . Str::random(4);
         });
     }
 
@@ -33,12 +33,12 @@ class BooksBorrowReturn extends Model
 
     public function book()
     {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Book::class, 'book_id');
     }
 
     public function member()
     {
-        return $this->belongsTo(Members::class);
+        return $this->belongsTo(Members::class, 'member_id');
     }
 
 }

@@ -37,7 +37,7 @@ class Members extends Model
 
     public function borrowRecords()
     {
-        return $this->hasMany(BooksBorrowReturn::class);
+        return $this->hasMany(BooksBorrowReturn::class, 'member_id');
     }
 
 }

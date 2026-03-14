@@ -17,7 +17,7 @@ class BorrowReturnController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author Thimira Dilshan <thimirad865@gmail.com>
      */
-    public function prepBookBorrowReturn(Request $request)
+    public function prepBookBorrowReturn_AJAX(Request $request)
     {
         // read book_id, member_id
         $validate = Validator::make(
@@ -64,14 +64,17 @@ class BorrowReturnController extends Controller
                 'record' => $record ? $record->toArray() : null,
                 'similar_transactions' => BooksBorrowReturn::where('book_id', $book->id)
                     ->where('member_id', $member->id)->limit(10)->orderBy('id', 'desc')
-                    ->get(['transaction_id', 'returned_date', 'borrowed_date', 'return_promised_date'])
+                    ->get(['transaction_id', 'returned_date', 'borrowed_date', 'return_promised_date'])->toArray()
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Something went wrong!, Error Code: ' . (string) $e->getCode(),
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTrace()
             ], 500);
         }
     }
@@ -83,7 +86,7 @@ class BorrowReturnController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author Thimira Dilshan <thimirad865@gmail.com>
      */
-    public function BorrowBook(Request $request)
+    public function BorrowBook_AJAX(Request $request)
     {
         // validate data
         $validate = Validator::make($request->all(), [
@@ -130,7 +133,7 @@ class BorrowReturnController extends Controller
     }
 
     // mark as returned book
-    public function ReturnBook(Request $request)
+    public function ReturnBook_AJAX(Request $request)
     {
         // validate data
         $validate = Validator::make($request->all(), [
@@ -218,7 +221,7 @@ class BorrowReturnController extends Controller
         }
         // check member can borrowed this book,
         // one member can only borrow n(n >= 1) amount of books
-        if ($member->borrowRecords()->whereNull('returned_date')->count() <= 10) {
+        if ($member->borrowRecords()->whereNull('returned_date')->count() >= 10) {
             return ['status' => false, 'message' => 'Member has reached borrow limit'];
         }
         // is the book already out or not
