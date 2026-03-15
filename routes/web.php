@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Books\BooksController;
 use App\Http\Controllers\Books\CategoryController;
 use App\Http\Controllers\Members\MemberController;
+use App\Http\Controllers\Books\BorrowReturnController;
 
 Route::get('/', [AuthController::class, 'showLogin']);
 // auth section
@@ -51,6 +52,15 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/delete/{member_id}', 'deleteMember')->name('members-delete-member');
             Route::get('/ajax/dashboard/members', 'search_members_AJAX')->name('members-search-dashboard-ajax');
             Route::get('/ajax/dashboard/member/{member_id}', 'load_member_AJAX')->name('members-load-dashboard-ajax');
+        });
+
+    // books borrow return
+    Route::controller(BorrowReturnController::class)
+        ->prefix('bbr')
+        ->group(function () {
+            Route::get('/check-bbr-prep', 'prepBookBorrowReturn_AJAX')->name('bbr-check-bbr-prep');
+            Route::post('/borrow-book', 'BorrowBook_AJAX')->name('bbr-borrow-book');
+            Route::post('/return-book', 'ReturnBook_AJAX')->name('bbr-return-book');
         });
 
     // GET-ajax routes
