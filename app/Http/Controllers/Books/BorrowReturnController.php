@@ -50,12 +50,22 @@ class BorrowReturnController extends Controller
             if (!$member) {
                 return response()->json(['status' => 'error', 'message' => 'Member not found'], 404);
             }
-            // check for an existing BooksBorrowReturn record with returned_date = null
-            $record = BooksBorrowReturn::where('book_id', $book->id)
-                ->where('member_id', $member->id)->whereNull('returned_date')->first();
-            // If found, you treat it as a return/extend.
-            // If not found, you call check_book_can_be_borrowed() to see if borrowing is possible.
-            $can_borrow = !$record ? $this->check_book_can_be_borrowed($book->book_id, $member->member_id) : false;
+            // call check_book_can_be_borrowed() to see if borrowing is possible.
+            $record = null;
+            $can_borrow = $this->check_book_can_be_borrowed($book->book_id, $member->member_id);
+            if (!$can_borrow['status']) {
+                // check for an existing BooksBorrowReturn record with returned_date = null
+                $record = BooksBorrowReturn::where('book_id', $book->id)
+                    ->where('member_id', $member->id)->whereNull('returned_date')->first([
+                        'transaction_id',
+                        'borrowed_date',
+                        'returned_date',
+                        'return_promised_date',
+                        'remarks',
+                    ]);
+                // If found, you treat it as a return/extend.
+                $can_borrow = false;
+            }
             // return response
             return response()->json([
                 'status' => 'success',
@@ -71,10 +81,7 @@ class BorrowReturnController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Something went wrong!, Error Code: ' . (string) $e->getCode(),
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTrace()
+                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -90,8 +97,8 @@ class BorrowReturnController extends Controller
     {
         // validate data
         $validate = Validator::make($request->all(), [
-            'book_id' => 'required|exists:books,id',
-            'member_id' => 'required|exists:members,id',
+            'book_id' => 'required|exists:books,book_id',
+            'member_id' => 'required|exists:members,member_id',
             'borrowed_date' => 'required|date',
             'return_promised_date' => 'required|date|after_or_equal:borrowed_date',
             'returned_date' => 'nullable|date|after_or_equal:borrowed_date',
@@ -116,8 +123,22 @@ class BorrowReturnController extends Controller
             ], 422);
         }
         // store validated data
+        $validated = $validate->validated();
+        $ruleCheck = $this->check_book_can_be_borrowed($validated['book_id'], $validated['member_id']);
+        if (!$ruleCheck['status']) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $ruleCheck['message'],
+            ], 422);
+        }
         try {
-            BooksBorrowReturn::create($validate->validated());
+            // get book/member models
+            $book = Book::where('book_id', $validated['book_id'])->firstOrFail(['id']);
+            $validated['book_id'] = $book->id;
+            $member = Members::where('member_id', $validated['member_id'])->firstOrFail(['id']);
+            $validated['member_id'] = $member->id;
+            // create record
+            BooksBorrowReturn::create($validated);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -137,15 +158,15 @@ class BorrowReturnController extends Controller
     {
         // validate data
         $validate = Validator::make($request->all(), [
-            'id' => 'required|exists:book_borrow_return,id', // books_borrow_return.id
-            'book_id' => 'required|exists:books,id',
-            'member_id' => 'required|exists:members,id',
+            'transaction_id' => 'required|exists:books_borrow_return,transaction_id', // books_borrow_return.id
+            'book_id' => 'required|exists:books,book_id',
+            'member_id' => 'required|exists:members,member_id',
             'returned_date' => 'required|date|after_or_equal:borrowed_date',
             'remarks' => 'nullable|string',
         ], [
             'returned_date.after_or_equal' => 'Returned date must be the same day or later than the borrowed date.',
         ], [
-            'id' => 'BBR_ID',
+            'transaction_id' => 'Transaction ID',
             'book_id' => 'Book ID',
             'member_id' => 'Member ID',
             'returned_date' => 'Returned Date',
@@ -162,7 +183,7 @@ class BorrowReturnController extends Controller
         // update data
         $validate = $validate->validated();
         try {
-            $bbr = BooksBorrowReturn::where('id', $validate['id'])->firstOrFail();
+            $bbr = BooksBorrowReturn::where('transaction_id', $validate['transaction_id'])->firstOrFail();
             $bbr->returned_date = $validate['returned_date'];
             $bbr->remarks = $validate['remarks'];
             $bbr->save();
@@ -180,6 +201,9 @@ class BorrowReturnController extends Controller
             // 'redirect' => route('books.index')
         ], 200);
     }
+
+    // todo create a function to extend the period
+    // function will first mark book as returned then make a new book-borrow action with same book,member info
 
     // query history, for books
     public function BookBorrowReturnHistory($book_id)
@@ -236,3 +260,10 @@ class BorrowReturnController extends Controller
 
     }
 }
+
+/**
+ * // todo: run tests for followings
+ * 1. BOOK-A, MEMBER-A
+ * 2. BOOK-A, MEMBER-B | MEMBER-C
+ * 3. BOOK-B, MEMBER-A | MEMBER-B | MEMBER-C
+ */
