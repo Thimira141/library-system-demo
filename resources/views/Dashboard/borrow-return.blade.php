@@ -238,8 +238,9 @@
         bbrCheckBBRPrep: @json(route('bbr-check-bbr-prep')),
         bbrFormSubmitBookBorrow: @json(route('bbr-borrow-book')),
         bbrFormSubmitBookReturn: @json(route('bbr-return-book')),
+        bbrLoadInfoBook: @json(route('books-load-dashboard-ajax', ':id')),
+        bbrLoadInfoMember: @json(route('members-load-dashboard-ajax', ':id')),
+        bbrSearchBooks: @json(route('books-search-dashboard-ajax')),
+        bbrSearchMembers: @json(route('members-search-dashboard-ajax')),
     };
-
-    // TODO: check the url using in the js files to call for ajax if they are directly calling url instead of above script
-    // TODO: ``` window.routes={}``` please replace it with this pattern; specially ajax callings
 </script>

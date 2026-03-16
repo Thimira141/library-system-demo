@@ -11,7 +11,7 @@ export function BorrowReturnDashboardInit() {
         labelField: "book_id",
         valueField: "book_id", searchField: ['book_id', 'book_title'],
         load: (query, callback) => {
-            fetch(`/books/ajax/dashboard/books?q=${encodeURIComponent(query)}`)
+            fetch(`${window.routes.bbrSearchBooks}?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(json => { callback(json); })
                 .catch(() => { callback(); });
@@ -44,7 +44,7 @@ export function BorrowReturnDashboardInit() {
         labelField: "member_id",
         valueField: "member_id", searchField: ['member_id', 'member_name'],
         load: (query, callback) => {
-            fetch(`/members/ajax/dashboard/members?q=${encodeURIComponent(query)}`)
+            fetch(`${window.routes.bbrSearchMembers}?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(json => { callback(json); })
                 .catch(() => { callback(); });
@@ -90,7 +90,7 @@ export function BorrowReturnDashboardInit() {
 
 // function load member/book
 async function load_book(book_id) {
-    const response = await load_data(`/books/ajax/dashboard/book/${encodeURIComponent(book_id)}`, '#dashboard-bnr-book-data-render');
+    const response = await load_data(window.routes.bbrLoadInfoBook.replace(':id', encodeURIComponent(book_id)), '#dashboard-bnr-book-data-render');
     const bookElement = document.querySelector('#dashboard-bnr-book-data-render') || false;
     if (!(Object.keys(response.book).length > 0 && bookElement)) {
         showModal('error', 'Book Data/Element load Failed!');
@@ -103,7 +103,7 @@ async function load_book(book_id) {
     });
 }
 async function load_member(member_id) {
-    const response = await load_data(`/members/ajax/dashboard/member/${encodeURIComponent(member_id)}`, '#dashboard-bnr-member-data-render');
+    const response = await load_data(window.routes.bbrLoadInfoMember.replace(':id', encodeURIComponent(member_id)), '#dashboard-bnr-member-data-render');
     const memberElement = document.querySelector('#dashboard-bnr-member-data-render') || false;
     if (!(Object.keys(response.member).length > 0 && memberElement)) {
         showModal('error', 'Member Data/Element load Failed!');
