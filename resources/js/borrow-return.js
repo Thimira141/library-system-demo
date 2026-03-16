@@ -91,20 +91,29 @@ export function BorrowReturnDashboardInit() {
 // function load member/book
 async function load_book(book_id) {
     const response = await load_data(`/books/ajax/dashboard/book/${encodeURIComponent(book_id)}`, '#dashboard-bnr-book-data-render');
-    const bookElement = document.querySelector('#dashboard-bnr-book-data-render');
-    bookElement.querySelector('img.cover-img').setAttribute('src', '/storage/' + response.book.book_cover_img);
-    bookElement.querySelector('.book-id').textContent = "#" + response.book.book_id;
-    bookElement.querySelector('.book-title').textContent = response.book.book_title;
-    bookElement.querySelector('.book-author').textContent = response.book.book_author;
-    bookElement.querySelector('.book-summary').textContent = response.book.book_remarks;
+    const bookElement = document.querySelector('#dashboard-bnr-book-data-render') || false;
+    if (!(Object.keys(response.book).length > 0 && bookElement)) {
+        showModal('error', 'Book Data/Element load Failed!');
+        return false;
+    }
+    bookElement.querySelector('img.cover-img')?.setAttribute('src', '/storage/' + response.book.book_cover_img);
+    ['book_id', 'book_title', 'book_author', 'book_remarks'].forEach(i => {
+        const el = bookElement.querySelector(`[data-book-data-expose="${i}"]`) || false;
+        if (el) { el.textContent = response.book[i] }
+    });
 }
 async function load_member(member_id) {
     const response = await load_data(`/members/ajax/dashboard/member/${encodeURIComponent(member_id)}`, '#dashboard-bnr-member-data-render');
-    const memberElement = document.querySelector('#dashboard-bnr-member-data-render');
-    memberElement.querySelector('img.cover-img').setAttribute('src', '/storage/' + response.member.member_cover_img);
-    memberElement.querySelector('.member-id').textContent = "#" + response.member.member_id;
-    memberElement.querySelector('.member-name').textContent = response.member.member_name;
-    memberElement.querySelector('.member-email').textContent = response.member.member_email;
+    const memberElement = document.querySelector('#dashboard-bnr-member-data-render') || false;
+    if (!(Object.keys(response.member).length > 0 && memberElement)) {
+        showModal('error', 'Member Data/Element load Failed!');
+        return false;
+    }
+    memberElement.querySelector('img.cover-img')?.setAttribute('src', '/storage/' + response.member.member_cover_img);
+    ['member_id', 'member_name', 'member_email'].forEach(i => {
+        const el = memberElement.querySelector(`[data-member-data-expose="${i}"]`) || false;
+        if (el) { el.textContent = response.member[i] }
+    });
 }
 
 async function load_data(url, loader = null) {
@@ -153,7 +162,7 @@ async function prep_borrow_return() {
     // submit data to server
     let url = window.routes.bbrCheckBBRPrep + `?book_id=${window.BBR_book_id}&member_id=${window.BBR_member_id}`;
     const response = await load_data(url, '.bbr-check-bbr-prep');
-    console.log(response); // console log
+    // console.log(response); // console log
     if (response.status == 'success') {
         // set form fields ready
         if (response.record) {
@@ -163,7 +172,9 @@ async function prep_borrow_return() {
             bbrForm.setAttribute('action', window.routes.bbrFormSubmitBookReturn);
             // fill form fields
             for (const [field, value] of Object.entries(response.record)) {
-                bbrForm.querySelector(`input[name="${field}"]`)?.value('value', value);
+                const bbrFormFillFormElement = bbrForm.querySelector(`input[name="${field}"]`) || false;
+                if (bbrFormFillFormElement) { bbrFormFillFormElement.value = value; }
+                // bbrForm.querySelector(`input[name="${field}"]`)?.setAttribute('value', value);
             }
             // enable book return/extend button
             document.querySelectorAll('#bbr-book-return-button'/*, #bbr-book-extend-button'*/).forEach(e => {
@@ -243,8 +254,8 @@ async function prep_borrow_return() {
  */
 function resetBBRForm() {
     // get form
-    const bbrForm = document.querySelector('form#bbr-form')||false;
-    if (!bbrForm) {return false;}
+    const bbrForm = document.querySelector('form#bbr-form') || false;
+    if (!bbrForm) { return false; }
     // reset form
     bbrForm.reset();
     // reset book return status
@@ -258,9 +269,9 @@ function resetBBRForm() {
     document.querySelectorAll('#bbr-book-borrow-button, #bbr-book-return-button, #bbr-book-extend-button').forEach(e => {
         e.classList.add('disabled', 'pe-none');
     });
-    bbrForm.querySelectorAll('input, textarea').forEach(e=> {e.classList.add('disabled', 'pe-none')});
+    bbrForm.querySelectorAll('input, textarea').forEach(e => { e.classList.add('disabled', 'pe-none') });
     // clear bbr-similar_transactions_table -> <tbody>
     const similarTransactionsTableElement = document.querySelector('#bbr-similar_transactions_table tbody') || false;
-    if (similarTransactionsTableElement) {similarTransactionsTableElement.innerHTML='';}
+    if (similarTransactionsTableElement) { similarTransactionsTableElement.innerHTML = ''; }
 }
 

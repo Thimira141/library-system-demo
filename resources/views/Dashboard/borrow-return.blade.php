@@ -76,10 +76,10 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title book-id">Book ID</h5>
-                        <h5 class="card-title book-title">Book Name</h5>
-                        <h5 class="card-title book-author">Book Name</h5>
-                        <p class="card-text book-summary">This is a wider card with supporting text below as a natural
+                        <h5 class="card-title book-id" data-book-data-expose="book_id">Book ID</h5>
+                        <h5 class="card-title book-title" data-book-data-expose="book_title">Book Name</h5>
+                        <h5 class="card-title book-author" data-book-data-expose="book_author">Book Name</h5>
+                        <p class="card-text book-summary" data-book-data-expose="book_remarks">This is a wider card with supporting text below as a natural
                             lead-in to
                             additional content. This content is a little bit longer.< book summary>
                         </p>
@@ -103,9 +103,9 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title member-name">Member Name</h5>
-                        <h5 class="card-title member-id">#memberID</h5>
-                        <h5 class="card-title member-email">member email</h5>
+                        <h5 class="card-title member-name" data-member-data-expose="member_id">Member Name</h5>
+                        <h5 class="card-title member-id" data-member-data-expose="member_name">#memberID</h5>
+                        <h5 class="card-title member-email" data-member-data-expose="member_email">member email</h5>
                         <p class="d-none">
                             <button class="btn btn-link">
                                 More
