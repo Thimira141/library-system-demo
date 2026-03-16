@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
+    use HasFactory;
     // Table name (optional if it matches plural of model name)
     protected $table = 'books';
 
