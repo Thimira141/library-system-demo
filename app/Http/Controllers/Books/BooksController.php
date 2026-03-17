@@ -265,9 +265,61 @@ class BooksController extends Controller
         return view('books.view-book', compact('book'));
     }
 
+    /**
+     * data-table querying for books's borrowing/return history
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
+    public function book_borrowing_history_AJAX(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            ['book_id' => 'required|exists:books,book_id'],
+            [],
+            ['book_id' => 'Book ID']
+        );
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'validateFail',
+                'message' => 'Invalid filter parameters.',
+                'errorBag' => $validate->errors(),
+                'data' => [], // DataTables expects a "data" key even on error
+            ], 422);
+        }
+
+        $validated = $validate->validated();
+
+        // Get the book instance
+        $book = Book::where('book_id', $validated['book_id'])->first();
+
+        //TODO: add filter for book borrow/return/return promised dates
+
+        // Build the borrowRecords query with join + select
+        $query = $book->borrowRecords()
+            ->join('members', 'books_borrow_return.member_id', '=', 'members.id')
+            ->select([
+                'books_borrow_return.transaction_id',
+                'members.member_id',
+                'books_borrow_return.borrowed_date',
+                'books_borrow_return.return_promised_date',
+                'books_borrow_return.returned_date',
+            ]);
+
+        // Return DataTables response
+        return DataTables::of($query)->make(true);
+    }
+
+    /**
+     * search books using ajax for tom-select
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
     public function search_books_AJAX(Request $request)
     {
-        $validate = Validator::make($request->all(), ['q'=>'string|nullable'], [], ['q' => 'Search Text']);
+        $validate = Validator::make($request->all(), ['q' => 'string|nullable'], [], ['q' => 'Search Text']);
         if ($validate->fails()) {
             if ($request->ajax()) {
                 return response()->json([
@@ -287,11 +339,22 @@ class BooksController extends Controller
         return response()->json($books);
     }
 
+    /**
+     * load book info for dashboard book-borrow-return
+     * @param mixed $book_id
+     * @return \Illuminate\Http\JsonResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
     public function load_book_AJAX($book_id)
     {
         // load book from model
         $book = Book::where('book_id', $book_id)->firstOrFail([
-            'id', 'book_id', 'book_title', 'book_author', 'book_cover_img', 'book_remarks'
+            'id',
+            'book_id',
+            'book_title',
+            'book_author',
+            'book_cover_img',
+            'book_remarks'
         ]);
         if ($book) {
             return response()->json([

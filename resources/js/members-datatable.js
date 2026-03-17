@@ -4,6 +4,7 @@ import 'datatables.net-responsive-bs5';
 
 // Initialize without jQuery
 $(document).ready(function () {
+    // members-list main table
     $('#membersTable').DataTable({
         processing: true,
         serverSide: true,
@@ -77,6 +78,48 @@ $(document).ready(function () {
     // Reload when filters change
     $('#searchBox').on('input', () => { reloadDataTableAjax('#membersTable'); });
     $('#searchBtn').on('click', () => { reloadDataTableAjax('#membersTable'); });
+
+    // book borrow history
+    $('#members-view-book-borrow-history').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: true,
+        ajax: {
+            url: window.routes.member_books_borrowing_history,
+            type: 'GET',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: function (d) {
+                d.member_id = $('input#member-id').val()
+            }
+        },
+        columns: [
+            {
+                data: 'transaction_id',
+                name: 'transaction_id',
+                searchable: true
+            },
+            {
+                data: 'book_id',
+                name: 'book_id',
+                searchable: true
+            },
+            {
+                data: 'borrowed_date',
+                name: 'borrowed_date',
+                searchable: false
+            },
+            {
+                data: 'return_promised_date',
+                name: 'return_promised_date',
+                searchable: false
+            },
+            {
+                data: 'returned_date',
+                name: 'returned_date',
+                searchable: false
+            }
+        ]
+    })
 });
 
 

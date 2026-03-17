@@ -68,9 +68,13 @@
                             <div class="col-md-3 col-sm-12 mb-3">
                                 <label for="member-nic-type" class="form-label">NIC Type</label>
                                 <select class="form-select" readonly name="member_nic_type" id="member-nic-type">
-                                    <option value="NIC" {{ $member->member_nic_type=='NIC' ? 'selected':null }}>NIC</option>
-                                    <option value="Driving Permit" {{ $member->member_nic_type=='Driving Permit' ? 'selected':null }}>Driving Permit</option>
-                                    <option value="Post ID" {{ $member->member_nic_type=='Post ID' ? 'selected':null }}>Post ID</option>
+                                    <option value="NIC" {{ $member->member_nic_type == 'NIC' ? 'selected' : null }}>NIC
+                                    </option>
+                                    <option value="Driving Permit"
+                                        {{ $member->member_nic_type == 'Driving Permit' ? 'selected' : null }}>Driving Permit
+                                    </option>
+                                    <option value="Post ID" {{ $member->member_nic_type == 'Post ID' ? 'selected' : null }}>Post
+                                        ID</option>
                                 </select>
                             </div>
                             <div class="col mb-3">
@@ -119,16 +123,16 @@
             {{-- 2nd tab pane --}}
             <div class="tab-pane fade" id="member-history-tab-pane" role="tabpanel" aria-labelledby="member-history-tab"
                 tabindex="0">
-                <div class="table-responsive">
-                    <table class="table table-hover">
+                <div class="table-responsive bg-body-tertiary shadow-sm rounded p-2">
+                    <table class="table table-hover" id="members-view-book-borrow-history">
                         <thead>
                             <tr>
                                 <th scope="col">Transaction ID</th>
-                                <th scope="col">Book Name</th>
+                                <th scope="col">Book ID</th>
                                 <th scope="col">Borrowed Date</th>
                                 <th scope="col">Return Promised Date</th>
                                 <th scope="col">Returned Date</th>
-                                <th scope="col">Remarks</th>
+                                {{-- <th scope="col">Remarks</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -142,5 +146,10 @@
         </div>
         {{-- end tab section --}}
     </div>
+    <script>
+        window.routes = {
+            member_books_borrowing_history: @json(route('members-book-borrow-history'))
+        };
+    </script>
 
 @endsection

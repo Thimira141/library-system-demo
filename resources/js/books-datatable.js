@@ -4,6 +4,8 @@ import 'datatables.net-responsive-bs5';
 
 // Initialize without jQuery
 $(document).ready(function () {
+
+    // books-list main table
     $('#booksTable').DataTable({
         processing: true,
         serverSide: true,
@@ -34,17 +36,17 @@ $(document).ready(function () {
             {
                 data: 'book_id',
                 name: 'book_id',
-                searchable: true
+                searchable: false
             },
             {
                 data: 'book_title',
                 name: 'book_title',
-                searchable: true
+                searchable: false
             },
             {
                 data: 'book_author',
                 name: 'book_author',
-                searchable: true
+                searchable: false
             },
             {
                 data: 'categories',
@@ -72,6 +74,49 @@ $(document).ready(function () {
     // Reload when filters change
     $('#searchBox').on('input', () => { reloadDataTableAjax('#booksTable'); });
     $('#searchBtn').on('click', () => { reloadDataTableAjax('#booksTable'); });
+
+
+    // book borrow history
+    $('#books-view-book-borrow-history').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: true,
+        ajax: {
+            url: window.routes.book_borrowing_history,
+            type: 'GET',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: function (d) {
+                d.book_id = $('input#book-id').val()
+            }
+        },
+        columns: [
+            {
+                data: 'transaction_id',
+                name: 'transaction_id',
+                searchable: true
+            },
+            {
+                data: 'member_id',
+                name: 'member_id',
+                searchable: true
+            },
+            {
+                data: 'borrowed_date',
+                name: 'borrowed_date',
+                searchable: true
+            },
+            {
+                data: 'return_promised_date',
+                name: 'return_promised_date',
+                searchable: true
+            },
+            {
+                data: 'returned_date',
+                name: 'returned_date',
+                searchable: true
+            }
+        ]
+    })
 });
 
 

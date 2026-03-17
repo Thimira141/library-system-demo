@@ -205,25 +205,6 @@ class BorrowReturnController extends Controller
     // todo create a function to extend the period
     // function will first mark book as returned then make a new book-borrow action with same book,member info
 
-    // query history, for books
-    public function BookBorrowReturnHistory($book_id)
-    {
-        // code
-        // get books.id -> send it to query_history('book_id', books.id)
-    }
-
-    // query history, for members
-    public function MemberBorrowReturnHistory($member_id)
-    {
-        // code
-        // get members.id -> send it to query_history('member_id', members.id)
-    }
-
-    protected function query_history($column, $value)
-    {
-        // code
-    }
-
     /**
      * Summary of check_book_can_be_borrowed
      * @param string $book_id books.book_id

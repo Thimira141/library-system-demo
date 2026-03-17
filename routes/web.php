@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/delete/{book_id}', 'deleteBook')->name('books-delete-book');
             Route::get('/ajax/dashboard/books', 'search_books_AJAX')->name('books-search-dashboard-ajax');
             Route::get('/ajax/dashboard/book/{book_id}', 'load_book_AJAX')->name('books-load-dashboard-ajax');
+            Route::get('/ajax/book-borrows', 'book_borrowing_history_AJAX')->name('books-book-borrow-history');
         });
     // members section
     Route::controller(MemberController::class)
@@ -52,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/delete/{member_id}', 'deleteMember')->name('members-delete-member');
             Route::get('/ajax/dashboard/members', 'search_members_AJAX')->name('members-search-dashboard-ajax');
             Route::get('/ajax/dashboard/member/{member_id}', 'load_member_AJAX')->name('members-load-dashboard-ajax');
+            Route::get('/ajax/book-borrows', 'book_borrowing_history_AJAX')->name('members-book-borrow-history');
         });
 
     // books borrow return

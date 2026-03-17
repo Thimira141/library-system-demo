@@ -93,8 +93,8 @@
             {{-- 2nd tab pane --}}
             <div class="tab-pane fade" id="book-history-tab-pane" role="tabpanel" aria-labelledby="book-history-tab"
                 tabindex="0">
-                <div class="table-responsive">
-                    <table class="table table-hover">
+                <div class="table-responsive bg-body-tertiary shadow-sm rounded p-2">
+                    <table class="table table-hover" id="books-view-book-borrow-history">
                         <thead>
                             <tr>
                                 <th scope="col">Transaction ID</th>
@@ -102,7 +102,7 @@
                                 <th scope="col">Borrowed Date</th>
                                 <th scope="col">Return Promised Date</th>
                                 <th scope="col">Returned Date</th>
-                                <th scope="col">Remarks</th>
+                                {{-- <th scope="col">Remarks</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -123,4 +123,9 @@
         {{-- end tab section --}}
     </div>
 
+    <script>
+        window.routes = {
+            book_borrowing_history: @json(route('books-book-borrow-history'))
+        };
+    </script>
 @endsection
