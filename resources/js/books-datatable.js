@@ -54,14 +54,27 @@ $(document).ready(function () {
                 visible: false
             },
             {
+                data: 'is_deleted',
+                name: 'is_deleted',
+                visible: false
+            },
+            {
                 data: 'book_id', orderable: false, searchable: false,
-                render: function (data) {
+                render: function (data, type, row, meta) {
+                    var is_deleted = row.is_deleted;
+                    var delete_btn_content = {
+                        class: is_deleted ? 'success' : 'danger',
+                        text: is_deleted ? 'Restore' : 'Delete'
+                    };
                     return `
-                        <button role="button" data-action="${window.routes.booksDestroy.replace(':id', data)}"
-                            class="btn btn-sm btn-danger" data-id="${data}"
+                        <button role="button"
+                            data-action="${window.routes.booksDestroy.replace(':id', data)}"
+                            class="btn btn-sm btn-${delete_btn_content.class}"
+                            data-id="${data}"
                             onclick="utility.handleDTDeleteRecord('#delete-dt-main-form', '#booksTable', this)"
+                            data-confirm-message="Are you sure you want to ${delete_btn_content.text} this book?"
                         >
-                            Delete
+                            ${delete_btn_content.text}
                         </button>
                         <a href="${window.routes.booksView.replace(':id', data)}" class="btn btn-sm btn-info">View</a>
                         <a href="${window.routes.booksEdit.replace(':id', data)}" class="btn btn-sm btn-warning">Edit</a>

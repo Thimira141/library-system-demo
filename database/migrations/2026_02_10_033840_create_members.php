@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('member_tel', 256);
             $table->string('member_address', 256);
             $table->string('member_remarks', 256)->nullable();
+            $table->boolean('is_deleted')->default('0');
             $table->timestamps();
         });
     }

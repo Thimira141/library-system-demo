@@ -25,6 +25,7 @@ class Members extends Model
         'member_tel',
         'member_address',
         'member_remarks',
+        'is_deleted'
     ];
 
     // auto generate member_id

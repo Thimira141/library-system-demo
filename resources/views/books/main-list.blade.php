@@ -75,7 +75,7 @@
     </div>
     <div class="visually-hidden">
         <form action="" method="POST" id="delete-dt-main-form" class="ajax-form" data-confirm="true"
-            data-confirm-message="Are you sure you want to delete this book?">
+            data-confirm-message="Are you sure you want to :btnText this book?">
             @csrf
             @method('DELETE')
             <input type="hidden" id="table-selector" name="book_id" value="">

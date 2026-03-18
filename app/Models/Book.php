@@ -20,6 +20,7 @@ class Book extends Model
         'book_author',
         'book_added',
         'book_remarks',
+        'is_deleted'
     ];
 
     // Auto-generate book_id before insert

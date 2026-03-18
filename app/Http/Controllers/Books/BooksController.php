@@ -196,7 +196,13 @@ class BooksController extends Controller
     }
 
 
-    public function deleteBook(Request $request)
+    /**
+     * delete the record from system permanently
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
+    public function deleteBook_permanent(Request $request)
     {
         // data validation
         $validate = Validator::make(
@@ -244,6 +250,52 @@ class BooksController extends Controller
             ]);
         } catch (\Exception $e) {
             // Log::error("Unexpected error deleting book: " . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An unexpected error occurred.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+        /**
+     * mark record as deleted or not deleted
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
+    public function deleteBook(Request $request)
+    {
+        // validate data
+        $validate = Validator::make(
+            $request->all(),
+            ['book_id' => 'required|string|exists:books,book_id'],
+            [],
+            ['book_id' => 'Book ID']
+        );
+        if ($validate->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'validateFail',
+                    'errorBag' => $validate->errors()->toArray(),
+                    'message' => 'Data validation failed!',
+                ], 401);
+            }
+            return back()->withErrors($validate->errors()->toArray());
+        }
+        $validated = $validate->validated();
+        // db operation
+        try {
+            $book = Book::where('book_id', $validated['book_id'])->firstOrFail();
+            // Toggle state
+            $book->is_deleted = $book->is_deleted == 1 ? 0 : 1;
+            $book->save();
+            // return response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Book ' . ($book->is_deleted ? 'deleted' : 'restored') . ' successfully.'
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'An unexpected error occurred.',

@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('book_author', 256);
             $table->date('book_added'); // better as a DATE
             $table->string('book_remarks', 256)->nullable();
+            $table->boolean('is_deleted')->default('0');
             $table->timestamps();
         });
 

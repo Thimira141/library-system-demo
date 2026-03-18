@@ -74,7 +74,7 @@ export function previewSelectedImage(element) {
  * Trigger Delete form on Data-table
  * @param {string} form_selector
  * @param {string} dt_selector
- * @param {HTMLElement} element
+ * @param {HTMLElement} element delete/restore button
  */
 export function handleDTDeleteRecord(form_selector, dt_selector, element) {
     const form = document.querySelector(form_selector);
@@ -82,6 +82,8 @@ export function handleDTDeleteRecord(form_selector, dt_selector, element) {
 
     // Set the form action to the delete endpoint
     form.setAttribute('action', element.dataset.action);
+    // change confirm dialog box text
+    form.setAttribute('data-confirm-message', element.getAttribute('data-confirm-message'));
 
     // Set the hidden input value to the book ID
     hiddenInput.value = element.dataset.id;

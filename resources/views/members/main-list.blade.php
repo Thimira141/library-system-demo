@@ -70,7 +70,7 @@
     </div>
     <div class="visually-hidden">
         <form action="" method="POST" id="delete-dt-main-form" class="ajax-form" data-confirm="true"
-            data-confirm-message="Are you sure you want to delete this member?">
+            data-confirm-message="Are you sure you want to :btnText this member?">
             @csrf
             @method('DELETE')
             <input type="hidden" id="table-selector" name="member_id" value="">

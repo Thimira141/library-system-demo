@@ -201,12 +201,12 @@ class MemberController extends Controller
     }
 
     /**
-     * Summary of deleteMember
+     * this delete data from system permanently, no recovery is possible
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      * @author Thimira Dilshan <thimirad865@gmail.com>
      */
-    public function deleteMember(Request $request)
+    public function deleteMember_permanently(Request $request)
     {
         // data validation
         $validate = Validator::make(
@@ -263,6 +263,53 @@ class MemberController extends Controller
     }
 
     /**
+     * mark record as deleted or not deleted
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @author Thimira Dilshan <thimirad865@gmail.com>
+     */
+    public function deleteMember(Request $request)
+    {
+        // validate data
+        $validate = Validator::make(
+            $request->all(),
+            ['member_id' => 'required|string|exists:members,member_id'],
+            [],
+            ['member_id' => 'MemberID']
+        );
+        if ($validate->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'validateFail',
+                    'errorBag' => $validate->errors()->toArray(),
+                    'message' => 'Data validation failed!',
+                ], 401);
+            }
+            return back()->withErrors($validate->errors()->toArray());
+        }
+        $validated = $validate->validated();
+        // db operation
+        try {
+            $member = Members::where('member_id', $validated['member_id'])->firstOrFail();
+            // Toggle state
+            $member->is_deleted = $member->is_deleted == 1 ? 0 : 1;
+            $member->save();
+            // return response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Member ' . ($member->is_deleted ? 'deleted' : 'restored') . ' successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An unexpected error occurred.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /**
      * Summary of search_members_AJAX
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
@@ -300,7 +347,11 @@ class MemberController extends Controller
     {
         // load member from model
         $member = Members::where('member_id', $member_id)->firstOrFail([
-            'id', 'member_id', 'member_name', 'member_email', 'member_cover_img'
+            'id',
+            'member_id',
+            'member_name',
+            'member_email',
+            'member_cover_img'
         ]);
         if ($member) {
             return response()->json([
