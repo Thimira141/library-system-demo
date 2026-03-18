@@ -9,7 +9,8 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = [
-        'name',
+        'category_name',
+        'category_remarks'
     ];
 
     // Relationship: many-to-many with books

@@ -66,5 +66,10 @@ Route::middleware(['auth'])->group(function () {
         });
 
     // GET-ajax routes
-    Route::get('/ajax/category', [CategoryController::class, 'getCategory']);
+    Route::controller(CategoryController::class)
+        ->group(function() {
+            Route::get('/categories', fn() => view('books.categories'));
+            Route::get('/ajax/category', 'getCategory')->name('categories-search-ajax');
+            Route::get('/ajax/dt/category', 'searchCategoriesAJAX')->name('categories-search-dt-ajax');
+        });
 });
