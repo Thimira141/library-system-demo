@@ -8,7 +8,7 @@
         {{-- title section --}}
         <div class="row mb-3 border-bottom justify-content-between">
             <div class="col-auto">
-                <h3>View Member</h3>
+                <h3><x-back-button url="{{ route('members-main-list') }}"/>View Member</h3>
             </div>
             <div class="col-auto">
                 <a class="btn btn-primary rounded-pill" href="{{ route('members-edit-member', $member->member_id) }}">

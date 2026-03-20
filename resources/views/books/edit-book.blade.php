@@ -7,7 +7,7 @@
     <div class="container my-2  py-2">
         {{-- title section --}}
         <div class="row mb-3 border-bottom">
-            <h3>Edit Book</h3>
+            <h3><x-back-button url="{{ route('books-main-list') }}"/>Edit Book</h3>
         </div>
         {{-- end title section --}}
         {{-- form area --}}
