@@ -81,4 +81,10 @@
         {{-- end form area --}}
     </div>
 
+    <script>
+        window.routes = {
+            categoriesAjaxSearch: @json(route('categories-search-ajax'))
+        }
+    </script>
+
 @endsection

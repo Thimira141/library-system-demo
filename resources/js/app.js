@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         valueField: "id", labelField: "category_name", searchField: "category_name",
         preload: true,
         load: (query, callback) => {
-            fetch(`/ajax/category?q=${encodeURIComponent(query)}`)
+            fetch(`${window.routes.categoriesAjaxSearch}?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(json => { callback(json); })
                 .catch(() => { callback(); });
