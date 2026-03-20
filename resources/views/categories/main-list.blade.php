@@ -14,7 +14,7 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                <div class="table-responsive">
+                <div class="table-responsive bg-body-tertiary shadow-sm rounded p-3">
                     <table class="table table-hover" id="categories-manage-categories-main-table">
                         <thead>
                             <tr>
