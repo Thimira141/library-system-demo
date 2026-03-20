@@ -136,7 +136,15 @@ class BooksController extends Controller
 
     public function saveEditBook(Request $request, string $book_id)
     {
-        $book = Book::where('book_id', $book_id)->firstOrFail();
+        try {
+            $book = Book::where('book_id', $book_id)->firstOrFail();
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Database error occurred.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
 
         // Validate input including categories
         $validate = $this->ValidateData($request, $book->id);

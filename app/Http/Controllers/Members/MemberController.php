@@ -148,8 +148,16 @@ class MemberController extends Controller
      */
     public function saveEditMember(Request $request, string $member_id)
     {
-        // get member from model
-        $member = Members::where('member_id', $member_id)->firstOrFail();
+        try {
+            // get member from model
+            $member = Members::where('member_id', $member_id)->firstOrFail();
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Database error occurred.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
         // validate data
         $validate = $this->ValidateData($request, $member->id);
         if ($validate->fails()) {
