@@ -14,8 +14,17 @@ $(document).ready(function () {
             {data: 'books_count', name:'books_count', className: 'text-center'},
             {data: 'id', orderable: false, searchable:false,
                 render: function(data) {
-                    return `<button type="button" class="btn btn-sm btn-info">Edit</button>
-                        <button type="button" class="btn btn-sm btn-danger">Delete</button>`;
+                    return `
+                        <a href="${window.routes.categoryEditView.replace(':id', data)}"
+                            class="btn btn-sm btn-info"
+                        >Edit</a>
+                        <button type="button"
+                            class="btn btn-sm btn-danger"
+                            data-id="${data}"
+                            data-action="${window.routes.categoryDestroySubmit.replace(':id', data)}"
+                            onclick="utility.handleDTDeleteRecord('#categories-delete-dt-main-form', '#categories-manage-categories-main-table', this)"
+                            data-confirm-message="Are you sure you want to delete this category?">Delete
+                        </button>`;
             }},
             {data: 'category_remarks', name:'category_remarks', searchable: false, visible: false},
         ]

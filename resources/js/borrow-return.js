@@ -1,6 +1,6 @@
 import { initTomSelect } from "./tom-select-init";
 import { showModal } from "./message_models";
-import { partialLoadingAjax } from "./utility-functions";
+import { load_data } from "./utility-functions";
 
 export function BorrowReturnDashboardInit() {
     window.BBR_book_id = null;
@@ -114,29 +114,6 @@ async function load_member(member_id) {
         const el = memberElement.querySelector(`[data-member-data-expose="${i}"]`) || false;
         if (el) { el.textContent = response.member[i] }
     });
-}
-
-async function load_data(url, loader = null) {
-    loader && partialLoadingAjax(loader, false); // show loader
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            // show error modal with status text
-            showModal('error', response.statusText);
-            return null; // stop here if error
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error:', error);
-        showModal('error', error.message);
-        return null;
-    } finally {
-        // always hide loader, success or error
-        loader && partialLoadingAjax(loader, true);
-    }
 }
 
 

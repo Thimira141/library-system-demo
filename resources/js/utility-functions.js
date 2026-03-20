@@ -124,3 +124,31 @@ export function partialLoadingAjax(selector, loaded) {
     });
 }
 
+/**
+ *
+ * @param {String} url server uri
+ * @param {String} loader element identifier
+ * @returns
+ */
+export async function load_data(url, loader = null) {
+    loader && partialLoadingAjax(loader, false); // show loader
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // show error modal with status text
+            showModal('error', response.statusText);
+            return null; // stop here if error
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        showModal('error', error.message);
+        return null;
+    } finally {
+        // always hide loader, success or error
+        loader && partialLoadingAjax(loader, true);
+    }
+}

@@ -67,9 +67,15 @@ Route::middleware(['auth'])->group(function () {
 
     // GET-ajax routes
     Route::controller(CategoryController::class)
+        ->prefix('categories')
         ->group(function() {
-            Route::get('/categories', fn() => view('books.categories'));
+            Route::get('/', fn() => view('categories.main-list'))->name('categories-main-list');
             Route::get('/ajax/category', 'getCategory')->name('categories-search-ajax');
             Route::get('/ajax/dt/category', 'searchCategoriesAJAX')->name('categories-search-dt-ajax');
+            Route::get('/new', 'createCategoryView')->name('categories-new-view');
+            Route::get('/edit/{id}', 'EditCategoryView')->name('categories-edit-view');
+            Route::post('/ajax/category/submit-new', 'createCategoryAJAX')->name('categories-new-category-submit');
+            Route::post('/ajax/category/submit-edit/{id}', 'editCategoryAJAX')->name('categories-edit-category-submit');
+            Route::delete('/ajax/delete/{id}', 'deleteCategory_permanent')->name('categories-delete-category');
         });
 });

@@ -9,12 +9,24 @@
                         Dashboard
                     </a>
                 </li>
-                <li class="nav-item mx-1 px-1">
-                    <a class="nav-link {{ request()->routeIs('books*') ? 'active' : '' }}"
-                        href="{{ route('books-main-list') }}">
+                <li class="nav-item dropdown mx-1 px-1">
+                    <a class="nav-link {{ request()->routeIs('books*','categories*') ? 'active' : '' }} dropdown-toggle"
+                        href="{{ route('books-main-list') }}" data-bs-toggle="dropdown" role="link">
                         <i class="bi bi-journals me-1"></i>
                         Books
                     </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('books*') ? 'active' : '' }}" href="{{ route('books-main-list') }}">
+                                <i class="bi bi-journals me-1"></i>Books
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('categories*') ? 'active' : '' }}" href="{{ route('categories-main-list') }}">
+                                <i class="bi bi-bookmarks-fill me-1"></i>Categories
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item mx-1 px-1">
                     <a class="nav-link {{ request()->routeIs('members*') ? 'active' : '' }}"
