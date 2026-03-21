@@ -90,6 +90,7 @@ export function BorrowReturnDashboardInit() {
 
 // function load member/book
 async function load_book(book_id) {
+    if (!book_id) {return false;}
     const response = await load_data(window.routes.bbrLoadInfoBook.replace(':id', encodeURIComponent(book_id)), '#dashboard-bnr-book-data-render');
     const bookElement = document.querySelector('#dashboard-bnr-book-data-render') || false;
     if (!(Object.keys(response.book).length > 0 && bookElement)) {
@@ -103,6 +104,7 @@ async function load_book(book_id) {
     });
 }
 async function load_member(member_id) {
+    if (!member_id) {return false;}
     const response = await load_data(window.routes.bbrLoadInfoMember.replace(':id', encodeURIComponent(member_id)), '#dashboard-bnr-member-data-render');
     const memberElement = document.querySelector('#dashboard-bnr-member-data-render') || false;
     if (!(Object.keys(response.member).length > 0 && memberElement)) {
