@@ -1,25 +1,4 @@
 /**
- * Update the Date and Time
- * @param {HTMLElement} elementId
- * @returns
- */
-export function startDateTimeLiveUpdate(elementId) {
-    const el = document.getElementById(elementId);
-    if (!el) return;
-    setInterval(() => {
-        const dt = new Date();
-        el.textContent = dt.toLocaleString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-    }, 1000);
-}
-/**
  *  Cycle the button’s value and update its background class so it reflects the state
  * @param {string} elementIdentifier string that can locate element(s)
  *

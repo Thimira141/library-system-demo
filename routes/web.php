@@ -6,6 +6,8 @@ use App\Http\Controllers\Books\BooksController;
 use App\Http\Controllers\Books\CategoryController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\Books\BorrowReturnController;
+use App\Http\Controllers\Dashboard\MainDashboardController;
+
 
 Route::get('/', [AuthController::class, 'showLogin']);
 // auth section
@@ -19,8 +21,13 @@ Route::controller(AuthController::class)
 // dashboard
 Route::middleware(['auth'])->group(function () {
     // logout
-    // view dashboard
-    Route::get('/dashboard', fn() => view('dashboard.main-dashboard'))->name('dashboard-main');
+    // dashboard section
+    Route::controller(MainDashboardController::class)
+        ->prefix('/dashboard')
+        ->group(function () {
+            Route::get('/', fn() => view('dashboard.main-dashboard'))->name('dashboard-main');
+            Route::get('/ajax/card-data', 'getInfoCardsData')->name('dashboard-card-data-fetch');
+        });
     // books section
     Route::controller(BooksController::class)
         ->prefix('books')

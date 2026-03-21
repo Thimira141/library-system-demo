@@ -20,7 +20,7 @@ window.showConfirmModal = showConfirmModal;
 // import commonly used functions
 import * as utility from './utility-functions'
 window.utility = utility; // expose utility function globally
-utility.startDateTimeLiveUpdate('date-time-live-update');
+// utility.startDateTimeLiveUpdate('date-time-live-update');
 utility.IncludeExcludeIgnoreButton('.iei-btn');
 
 // import dashboard borrow-return
@@ -57,3 +57,6 @@ window.jQuery = $;
 import './books-datatable';
 import './members-datatable'
 import './manage-categories'
+
+// dashboard
+import './main-dashboard';
