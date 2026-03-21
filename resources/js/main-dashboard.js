@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", function () {
  */
 async function setCardData() {
     // load card data from server
-    const response = await load_data(window.routes.infoCardsData, '#dashboard-info-cards-holder [data-dashboard-info-card]');
+    const response = await load_data(window.routes.infoCardsData, '#main-dashboard-tab-pane [data-dashboard-info-card]');
 
     if (response.status != 'success') {
         showModal('error', response.message)
         return null;
     }
 
-    const cardHolder = document.querySelector('#dashboard-info-cards-holder')||false;
+    const cardHolder = document.querySelector('#main-dashboard-tab-pane')||false;
     if (cardHolder) {
         for(const [key, value] of Object.entries(response.cards)) {
             const cardWriter = cardHolder.querySelector(`[data-info-card-write="${key}"]`)||false;
