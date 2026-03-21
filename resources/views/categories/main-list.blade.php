@@ -55,6 +55,10 @@
             <input type="hidden" id="table-selector" name="id" value="">
         </form>
     </div>
+
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             categoriesAjax: @json(route('categories-search-dt-ajax')),
@@ -62,5 +66,5 @@
             categoryDestroySubmit: @json(route('categories-delete-category', ':id')),
         };
     </script>
-
+    @vite(['resources/js/categories.js'])
 @endsection

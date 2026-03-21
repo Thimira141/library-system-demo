@@ -76,6 +76,9 @@
             <input type="hidden" id="table-selector" name="member_id" value="">
         </form>
     </div>
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             memberView: @json(route('members-view-member', ':id')),
@@ -84,4 +87,6 @@
             memberImgPlaceholder: @json(asset('images/placeholder-image-member.svg')),
         };
     </script>
+    @vite(['resources/js/members.js'])
+
 @endsection

@@ -55,8 +55,7 @@
                         Edit Profile
                     </button>
                     <hr>
-                    <button class="dropdown-item text-danger" type="button"
-                        onclick="document.getElementById('logoutForm').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));">
+                    <button class="dropdown-item text-danger" type="button" id="log-out-form-button">
                         <i class="bi bi-box-arrow-right me-1"></i>
                         <span>Logout</span>
                     </button>

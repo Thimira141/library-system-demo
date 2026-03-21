@@ -7,7 +7,7 @@
     <div class="container my-2  py-2">
         {{-- title section --}}
         <div class="row mb-3 border-bottom">
-            <h3><x-back-button url="{{ route('books-main-list') }}"/>Add New Book</h3>
+            <h3><x-back-button url="{{ route('books-main-list') }}" />Add New Book</h3>
         </div>
         {{-- end title section --}}
         {{-- form area --}}
@@ -76,10 +76,14 @@
         </form>
         {{-- end form area --}}
     </div>
+
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             categoriesAjaxSearch: @json(route('categories-search-ajax'))
         }
     </script>
-
+    @vite(['resources/js/books.js'])
 @endsection

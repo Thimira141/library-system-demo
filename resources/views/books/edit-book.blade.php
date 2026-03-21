@@ -81,10 +81,15 @@
         {{-- end form area --}}
     </div>
 
+
+@endsection
+
+
+@section('scripts')
     <script>
         window.routes = {
             categoriesAjaxSearch: @json(route('categories-search-ajax'))
         }
     </script>
-
+    @vite(['resources/js/books.js'])
 @endsection

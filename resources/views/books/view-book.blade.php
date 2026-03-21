@@ -8,7 +8,7 @@
         {{-- title section --}}
         <div class="row mb-3 border-bottom justify-content-between">
             <div class="col-auto">
-                <h3><x-back-button url="{{ route('books-main-list') }}"/>View Book</h3>
+                <h3><x-back-button url="{{ route('books-main-list') }}" />View Book</h3>
             </div>
             <div class="col-auto">
                 <a class="btn btn-primary rounded-pill" href="{{ route('books-edit-book', $book->book_id) }}">
@@ -46,8 +46,8 @@
                     {{-- cover image  --}}
                     <div class="col-lg-2 col-md-3 col-sm-12 p-2 bg-gradient rounded-4 d-flex align-items-center">
                         <div class="w-100 h-auto position-relative">
-                            <img src="{{ Storage::url($book->book_cover_img) }}" class="img-fluid rounded-top w-100" alt=""
-                                onerror="this.src='{{ asset('images/placeholder-image-book.svg') }}'" />
+                            <img src="{{ Storage::url($book->book_cover_img) }}" class="img-fluid rounded-top w-100"
+                                alt="" onerror="this.src='{{ asset('images/placeholder-image-book.svg') }}'" />
                         </div>
                     </div>
                     {{-- end cover image --}}
@@ -55,15 +55,17 @@
                         <div class="mb-3">
                             <label for="book-id" class="form-label pe-none">Book ID</label>
                             <input type="text" id="book-id" class="form-control pe-none" placeholder="Auto Generate"
-                                value="{{$book->book_id}}" readonly />
+                                value="{{ $book->book_id }}" readonly />
                         </div>
                         <div class="mb-3">
                             <label for="book_title" class="form-label pe-none">Book Title</label>
-                            <input type="text" id="book_title" class="form-control pe-none" value="{{ $book->book_title }}" placeholder="" />
+                            <input type="text" id="book_title" class="form-control pe-none"
+                                value="{{ $book->book_title }}" placeholder="" />
                         </div>
                         <div class="mb-3">
                             <label for="book_author" class="form-label pe-none">Book Author</label>
-                            <input type="text" id="book_author" class="form-control pe-none" value="{{ $book->book_author }}" placeholder="" />
+                            <input type="text" id="book_author" class="form-control pe-none"
+                                value="{{ $book->book_author }}" placeholder="" />
                         </div>
                     </div>
                 </div>
@@ -74,14 +76,15 @@
                         <label for="book-categories" class="form-label pe-none">Book Categories</label>
                         <div class="row mx-1 w-100 flex-wrap">
                             @foreach ($book->categories as $category)
-                            <button class="btn btn-info btn-sm w-auto m-1 rounded-pill border pe-none" type="button"
-                                value="0">{{ $category->category_name }}</button>
+                                <button class="btn btn-info btn-sm w-auto m-1 rounded-pill border pe-none" type="button"
+                                    value="0">{{ $category->category_name }}</button>
                             @endforeach
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="book_added" class="form-label pe-none">Date Added</label>
-                        <input type="date" class="form-control pe-none" name="book_added" value="{{ $book->book_added }}" id="book_added" />
+                        <input type="date" class="form-control pe-none" name="book_added" value="{{ $book->book_added }}"
+                            id="book_added" />
                     </div>
                     <div class="mb-3">
                         <label for="book_remarks" class="form-label pe-none">Remarks</label>
@@ -123,9 +126,13 @@
         {{-- end tab section --}}
     </div>
 
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             book_borrowing_history: @json(route('books-book-borrow-history'))
         };
     </script>
+    @vite(['resources/js/books.js'])
 @endsection

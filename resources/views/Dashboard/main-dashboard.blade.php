@@ -36,9 +36,13 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             infoCardsData: @json(route('dashboard-card-data-fetch'))
         }
     </script>
+    @vite(['resources/js/main-dashboard.js', 'resources/js/borrow-return.js'])
 @endsection

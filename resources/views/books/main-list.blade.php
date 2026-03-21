@@ -81,6 +81,10 @@
             <input type="hidden" id="table-selector" name="book_id" value="">
         </form>
     </div>
+
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             booksView: @json(route('books-view-book', ':id')),
@@ -89,5 +93,7 @@
             bookImgPlaceholder: @json(asset('images/placeholder-image-book.svg')),
         };
     </script>
+
+    @vite(['resources/js/books.js'])
 
 @endsection

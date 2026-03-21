@@ -8,7 +8,7 @@
         {{-- title section --}}
         <div class="row mb-3 border-bottom justify-content-between">
             <div class="col-auto">
-                <h3><x-back-button url="{{ route('members-main-list') }}"/>View Member</h3>
+                <h3><x-back-button url="{{ route('members-main-list') }}" />View Member</h3>
             </div>
             <div class="col-auto">
                 <a class="btn btn-primary rounded-pill" href="{{ route('members-edit-member', $member->member_id) }}">
@@ -71,9 +71,11 @@
                                     <option value="NIC" {{ $member->member_nic_type == 'NIC' ? 'selected' : null }}>NIC
                                     </option>
                                     <option value="Driving Permit"
-                                        {{ $member->member_nic_type == 'Driving Permit' ? 'selected' : null }}>Driving Permit
+                                        {{ $member->member_nic_type == 'Driving Permit' ? 'selected' : null }}>Driving
+                                        Permit
                                     </option>
-                                    <option value="Post ID" {{ $member->member_nic_type == 'Post ID' ? 'selected' : null }}>Post
+                                    <option value="Post ID" {{ $member->member_nic_type == 'Post ID' ? 'selected' : null }}>
+                                        Post
                                         ID</option>
                                 </select>
                             </div>
@@ -146,10 +148,14 @@
         </div>
         {{-- end tab section --}}
     </div>
+
+@endsection
+
+@section('scripts')
     <script>
         window.routes = {
             member_books_borrowing_history: @json(route('members-book-borrow-history'))
         };
     </script>
-
+    @vite(['resources/js/members.js'])
 @endsection

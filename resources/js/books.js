@@ -1,9 +1,14 @@
 import $ from 'jquery';
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-responsive-bs5';
+import { IncludeExcludeIgnoreButton } from './utility-functions';
+import { initTomSelect } from './tom-select-init';
 
 // Initialize without jQuery
 $(document).ready(function () {
+
+    // iei-btn init
+    IncludeExcludeIgnoreButton('.iei-btn');
 
     // books-list main table
     $('#booksTable').DataTable({
@@ -33,31 +38,11 @@ $(document).ready(function () {
                                 style="width:80px;height:auto;">`;
                 }
             },
-            {
-                data: 'book_id',
-                name: 'book_id',
-                searchable: false
-            },
-            {
-                data: 'book_title',
-                name: 'book_title',
-                searchable: false
-            },
-            {
-                data: 'book_author',
-                name: 'book_author',
-                searchable: false
-            },
-            {
-                data: 'categories',
-                name: 'categories',
-                visible: false
-            },
-            {
-                data: 'is_deleted',
-                name: 'is_deleted',
-                visible: false
-            },
+            {data: 'book_id',name: 'book_id',searchable: false},
+            {data: 'book_title',name: 'book_title',searchable: false},
+            {data: 'book_author',name: 'book_author',searchable: false},
+            {data: 'categories',name: 'categories',visible: false},
+            {data: 'is_deleted',name: 'is_deleted',visible: false},
             {
                 data: 'book_id', orderable: false, searchable: false,
                 render: function (data, type, row, meta) {
@@ -103,33 +88,26 @@ $(document).ready(function () {
             }
         },
         columns: [
-            {
-                data: 'transaction_id',
-                name: 'transaction_id',
-                searchable: true
-            },
-            {
-                data: 'member_id',
-                name: 'member_id',
-                searchable: true
-            },
-            {
-                data: 'borrowed_date',
-                name: 'borrowed_date',
-                searchable: true
-            },
-            {
-                data: 'return_promised_date',
-                name: 'return_promised_date',
-                searchable: true
-            },
-            {
-                data: 'returned_date',
-                name: 'returned_date',
-                searchable: true
-            }
+            {data: 'transaction_id',name: 'transaction_id',searchable: true},
+            {data: 'member_id',name: 'member_id',searchable: true},
+            {data: 'borrowed_date',name: 'borrowed_date',searchable: true},
+            {data: 'return_promised_date',name: 'return_promised_date',searchable: true},
+            {data: 'returned_date',name: 'returned_date',searchable: true}
         ]
     })
+
+    // category select init
+    initTomSelect("#book_categories", {
+        placeholder: "Select categories",
+        valueField: "id", labelField: "category_name", searchField: "category_name",
+        preload: true,
+        load: (query, callback) => {
+            fetch(`${window.routes.categoriesAjaxSearch}?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(json => { callback(json); })
+                .catch(() => { callback(); });
+        }
+    });
 });
 
 

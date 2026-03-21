@@ -1,10 +1,13 @@
 import { load_data } from "./utility-functions";
 import { showModal } from "./message_models";
+import { BorrowReturnDashboardInit } from "./borrow-return";
 
 document.addEventListener("DOMContentLoaded", function () {
     startDateTimeLiveUpdate('date-time-live-update');
     setCardData();
     document.querySelector('button#main-dashboard-tab')?.addEventListener('click', setCardData);
+    // init borrow return
+    BorrowReturnDashboardInit();
 });
 
 /**
