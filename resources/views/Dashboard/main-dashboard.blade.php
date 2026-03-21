@@ -41,7 +41,16 @@
 @section('scripts')
     <script>
         window.routes = {
-            infoCardsData: @json(route('dashboard-card-data-fetch'))
+            infoCardsData: @json(route('dashboard-card-data-fetch')),
+            memberImgPlaceholder: @json(asset('images/placeholder-image-member.svg')),
+            bookImgPlaceholder: @json(asset('images/placeholder-image-book.svg')),
+            bbrCheckBBRPrep: @json(route('bbr-check-bbr-prep')),
+            bbrFormSubmitBookBorrow: @json(route('bbr-borrow-book')),
+            bbrFormSubmitBookReturn: @json(route('bbr-return-book')),
+            bbrLoadInfoBook: @json(route('books-load-dashboard-ajax', ':id')),
+            bbrLoadInfoMember: @json(route('members-load-dashboard-ajax', ':id')),
+            bbrSearchBooks: @json(route('books-search-dashboard-ajax')),
+            bbrSearchMembers: @json(route('members-search-dashboard-ajax')),
         }
     </script>
     @vite(['resources/js/main-dashboard.js', 'resources/js/borrow-return.js'])
