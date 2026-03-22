@@ -87,6 +87,10 @@
                             id="book_added" />
                     </div>
                     <div class="mb-3">
+                        <label for="book_summary" class="form-label pe-none">Summery</label>
+                        <textarea class="form-control pe-none" name="book_summary" id="book_summary" rows="3">{{ $book->book_summary }}</textarea>
+                    </div>
+                    <div class="mb-3">
                         <label for="book_remarks" class="form-label pe-none">Remarks</label>
                         <textarea class="form-control pe-none" name="book_remarks" id="book_remarks" rows="3">{{ $book->book_remarks }}</textarea>
                     </div>

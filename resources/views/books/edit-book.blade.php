@@ -7,11 +7,12 @@
     <div class="container my-2  py-2">
         {{-- title section --}}
         <div class="row mb-3 border-bottom">
-            <h3><x-back-button url="{{ route('books-main-list') }}"/>Edit Book</h3>
+            <h3><x-back-button url="{{ route('books-main-list') }}" />Edit Book</h3>
         </div>
         {{-- end title section --}}
         {{-- form area --}}
-        <form method="post" action="{{ route('books-save-edit-book', $book->book_id) }}" class="ajax-form" enctype="multipart/form-data">
+        <form method="post" action="{{ route('books-save-edit-book', $book->book_id) }}" class="ajax-form"
+            enctype="multipart/form-data">
             @csrf
             @method('POST')
             {{-- 1st row --}}
@@ -37,15 +38,17 @@
                     <div class="mb-3">
                         <label for="book-id" class="form-label pe-none">Book ID</label>
                         <input type="text" id="book-id" class="form-control pe-none" placeholder="Auto Generate"
-                            value="{{$book->book_id}}" readonly />
+                            value="{{ $book->book_id }}" readonly />
                     </div>
                     <div class="mb-3">
                         <label for="book_title" class="form-label">Book Title</label>
-                        <input type="text" id="book_title" name="book_title" class="form-control" value="{{ $book->book_title }}" placeholder="" />
+                        <input type="text" id="book_title" name="book_title" class="form-control"
+                            value="{{ $book->book_title }}" placeholder="" />
                     </div>
                     <div class="mb-3">
                         <label for="book_author" class="form-label">Book Author</label>
-                        <input type="text" id="book_author" name="book_author" class="form-control" value="{{ $book->book_author }}" placeholder="" />
+                        <input type="text" id="book_author" name="book_author" class="form-control"
+                            value="{{ $book->book_author }}" placeholder="" />
                     </div>
                 </div>
             </div>
@@ -56,13 +59,18 @@
                     <label for="book_categories" class="form-label">Select Book Categories</label>
                     <select class="form-select" name="book_categories[]" id="book_categories" multiple>
                         @foreach ($book->categories as $category)
-                        <option value="{{ $category->id }}" selected>{{ $category->category_name }}</option>
+                            <option value="{{ $category->id }}" selected>{{ $category->category_name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="book_added" class="form-label">Date Added</label>
-                    <input type="date" class="form-control" value="{{ $book->book_added }}" name="book_added" id="book_added" />
+                    <input type="date" class="form-control" value="{{ $book->book_added }}" name="book_added"
+                        id="book_added" />
+                </div>
+                <div class="mb-3">
+                    <label for="book_summary" class="form-label">Summery</label>
+                    <textarea class="form-control" name="book_summary" id="book_summary" rows="3">{{ $book->book_summary }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="book_remarks" class="form-label">Remarks</label>

@@ -1,19 +1,29 @@
 {
+  "_jquery.module-gzd0YkcT.js": {
+    "file": "assets/jquery.module-gzd0YkcT.js",
+    "name": "jquery.module"
+  },
   "_message_models-BSwgJxXS.js": {
     "file": "assets/message_models-BSwgJxXS.js",
     "name": "message_models"
   },
-  "_responsive.bootstrap5-C1HQbmS-.js": {
-    "file": "assets/responsive.bootstrap5-C1HQbmS-.js",
-    "name": "responsive.bootstrap5"
+  "_responsive.bootstrap5-D_HSXjOo.js": {
+    "file": "assets/responsive.bootstrap5-D_HSXjOo.js",
+    "name": "responsive.bootstrap5",
+    "imports": [
+      "_jquery.module-gzd0YkcT.js"
+    ]
   },
   "_tom-select-init-Bkzr50fw.js": {
     "file": "assets/tom-select-init-Bkzr50fw.js",
     "name": "tom-select-init"
   },
-  "_utility-functions-B8tfvdfT.js": {
-    "file": "assets/utility-functions-B8tfvdfT.js",
-    "name": "utility-functions"
+  "_utility-functions-JgHOhW6E.js": {
+    "file": "assets/utility-functions-JgHOhW6E.js",
+    "name": "utility-functions",
+    "imports": [
+      "_jquery.module-gzd0YkcT.js"
+    ]
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "assets/bootstrap-icons-BeopsB42.woff",
@@ -24,7 +34,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BivlE1-L.css",
+    "file": "assets/app-BM6xJw4V.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -33,65 +43,71 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-hH8WXwt5.js",
+    "file": "assets/app-D8YWLrg1.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_message_models-BSwgJxXS.js",
-      "_utility-functions-B8tfvdfT.js"
+      "_utility-functions-JgHOhW6E.js",
+      "_jquery.module-gzd0YkcT.js"
     ]
   },
   "resources/js/books.js": {
-    "file": "assets/books-B3VosgRi.js",
+    "file": "assets/books-DN97xwzw.js",
     "name": "books",
     "src": "resources/js/books.js",
     "isEntry": true,
     "imports": [
-      "_responsive.bootstrap5-C1HQbmS-.js",
-      "_utility-functions-B8tfvdfT.js",
+      "_jquery.module-gzd0YkcT.js",
+      "_responsive.bootstrap5-D_HSXjOo.js",
+      "_utility-functions-JgHOhW6E.js",
       "_tom-select-init-Bkzr50fw.js"
     ]
   },
   "resources/js/borrow-return.js": {
-    "file": "assets/borrow-return-DgTQRnyW.js",
+    "file": "assets/borrow-return-B329bMSe.js",
     "name": "borrow-return",
     "src": "resources/js/borrow-return.js",
     "isEntry": true,
     "imports": [
       "_tom-select-init-Bkzr50fw.js",
       "_message_models-BSwgJxXS.js",
-      "_utility-functions-B8tfvdfT.js"
+      "_utility-functions-JgHOhW6E.js",
+      "_jquery.module-gzd0YkcT.js"
     ]
   },
   "resources/js/categories.js": {
-    "file": "assets/categories-BgkwEmhv.js",
+    "file": "assets/categories-DqR9ozyA.js",
     "name": "categories",
     "src": "resources/js/categories.js",
     "isEntry": true,
     "imports": [
-      "_responsive.bootstrap5-C1HQbmS-.js"
+      "_jquery.module-gzd0YkcT.js",
+      "_responsive.bootstrap5-D_HSXjOo.js"
     ]
   },
   "resources/js/main-dashboard.js": {
-    "file": "assets/main-dashboard-BVJbCOQr.js",
+    "file": "assets/main-dashboard-DHTpWaEX.js",
     "name": "main-dashboard",
     "src": "resources/js/main-dashboard.js",
     "isEntry": true,
     "imports": [
-      "_utility-functions-B8tfvdfT.js",
+      "_utility-functions-JgHOhW6E.js",
       "_message_models-BSwgJxXS.js",
       "resources/js/borrow-return.js",
+      "_jquery.module-gzd0YkcT.js",
       "_tom-select-init-Bkzr50fw.js"
     ]
   },
   "resources/js/members.js": {
-    "file": "assets/members-CH6IvJzj.js",
+    "file": "assets/members-yDOPB6J-.js",
     "name": "members",
     "src": "resources/js/members.js",
     "isEntry": true,
     "imports": [
-      "_responsive.bootstrap5-C1HQbmS-.js"
+      "_jquery.module-gzd0YkcT.js",
+      "_responsive.bootstrap5-D_HSXjOo.js"
     ]
   }
 }

@@ -15,6 +15,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         searching: false,
+        responsive: true,
         ajax: {
             url: '/books/data',
             type: 'POST',
@@ -27,22 +28,34 @@ $(document).ready(function () {
         },
         columns: [
             {
-                data: 'book_cover_img',
-                orderable: false, searchable: false,
+                data: 'book_title', name: 'book_title',
                 render: function (data, type, row) {
                     if (type === 'sort' || type === 'filter') return data;
-                    return `<img src="/storage/${data}"
-                                alt="${row.book_title}"
-                                class="img-thumbnail"
-                                onerror="this.src='${window.routes.bookImgPlaceholder}'"
-                                style="width:80px;height:auto;">`;
+                    return `<div class="row">
+                                <div class="col-auto">
+                                    <img src="/storage/${row.book_cover_img}"
+                                        alt="${data}"
+                                        class="img-thumbnail"
+                                        onerror="this.src='${window.routes.bookImgPlaceholder}'"
+                                        style="width:80px;height:auto;">
+                                </div>
+                                <div class="col">
+                                    <p class="text-truncate" style="max-width:250px;">
+                                        ${data}
+                                    </p>
+                                    <p class="truncate-3-lines small" style="max-width:350px;">
+                                        ${row.book_summary}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
                 }
             },
             {data: 'book_id',name: 'book_id',searchable: false},
-            {data: 'book_title',name: 'book_title',searchable: false},
             {data: 'book_author',name: 'book_author',searchable: false},
             {data: 'categories',name: 'categories',visible: false},
             {data: 'is_deleted',name: 'is_deleted',visible: false},
+            {data: 'book_cover_img',name: 'book_cover_img',searchable: false, visible: false},
             {
                 data: 'book_id', orderable: false, searchable: false,
                 render: function (data, type, row, meta) {

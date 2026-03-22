@@ -26,6 +26,7 @@ export function BorrowReturnDashboardInit() {
                 <div class="col">
                     <h5 class="border-bottom">#${escape(item.book_id)}</h5>
                     <h6>${escape(item.book_title)} | ${escape(item.book_author)}</h6>
+                    <p class="truncate-3-lines small" style="max-width:350px;">${item.book_summary}</p>
                 </div>
             </div>`;
             }
@@ -98,8 +99,8 @@ async function load_book(book_id) {
         return false;
     }
     bookElement.querySelector('img.cover-img')?.setAttribute('src', '/storage/' + response.book.book_cover_img);
-    ['book_id', 'book_title', 'book_author', 'book_remarks'].forEach(i => {
-        const el = bookElement.querySelector(`[data-book-data-expose="${i}"]`) || false;
+    ['book_id', 'book_title', 'book_author', 'book_summary'].forEach(i => {
+        const el = bookElement.querySelector(`[data-book-data-expose="${i}"] span.text`) || false;
         if (el) { el.textContent = response.book[i] }
     });
 }
@@ -113,7 +114,7 @@ async function load_member(member_id) {
     }
     memberElement.querySelector('img.cover-img')?.setAttribute('src', '/storage/' + response.member.member_cover_img);
     ['member_id', 'member_name', 'member_email'].forEach(i => {
-        const el = memberElement.querySelector(`[data-member-data-expose="${i}"]`) || false;
+        const el = memberElement.querySelector(`[data-member-data-expose="${i}"] span.text`) || false;
         if (el) { el.textContent = response.member[i] }
     });
 }

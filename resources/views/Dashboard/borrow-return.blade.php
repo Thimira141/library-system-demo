@@ -76,12 +76,18 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title book-id" data-book-data-expose="book_id">Book ID</h5>
-                        <h5 class="card-title book-title" data-book-data-expose="book_title">Book Name</h5>
-                        <h5 class="card-title book-author" data-book-data-expose="book_author">Book Name</h5>
-                        <p class="card-text book-summary" data-book-data-expose="book_remarks">This is a wider card with supporting text below as a natural
-                            lead-in to
-                            additional content. This content is a little bit longer.< book summary>
+                        <h5 class="card-title book-id" data-book-data-expose="book_id">
+                            <i class="bi bi-hash me-1"></i><span class="text">Book ID</span>
+                        </h5>
+                        <h5 class="card-title book-title" data-book-data-expose="book_title">
+                            <i class="bi bi-journal-minus me-1"></i><span class="text">Book Name</span>
+                        </h5>
+                        <h5 class="card-title book-author" data-book-data-expose="book_author">
+                            <i class="bi bi-vector-pen me-1"></i><span class="text">Book Author</span>
+                        </h5>
+                        <p class="card-text book-summary truncate-3-lines small" data-book-data-expose="book_summary">
+                            <i class="bi bi-chat-left-text me-1"></i><span class="text">This is a wider card with supporting text class="text" below a
+                            s a natural lead-in to additional content. This content is a little bit longer. book summary</span>
                         </p>
                         <p class="d-none">
                             <button class="btn btn-link">
@@ -103,9 +109,15 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title member-name" data-member-data-expose="member_id">Member Name</h5>
-                        <h5 class="card-title member-id" data-member-data-expose="member_name">#memberID</h5>
-                        <h5 class="card-title member-email" data-member-data-expose="member_email">member email</h5>
+                        <h5 class="card-title member-id" data-member-data-expose="member_name">
+                            <i class="bi bi-hash me-1"></i><span class="text">memberID</span>
+                        </h5>
+                        <h5 class="card-title member-name" data-member-data-expose="member_id">
+                            <i class="bi bi-person-badge-fill me-1"></i><span class="text">Member Name</span>
+                        </h5>
+                        <h5 class="card-title member-email" data-member-data-expose="member_email">
+                            <i class="bi bi-envelope-at-fill me-1"></i><span class="text">member email</span>
+                        </h5>
                         <p class="d-none">
                             <button class="btn btn-link">
                                 More

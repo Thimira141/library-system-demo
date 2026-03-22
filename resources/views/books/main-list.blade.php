@@ -60,7 +60,7 @@
                         <tr>
                             <th scope="col">Book Cover</th>
                             <th scope="col">BookID</th>
-                            <th scope="col">Book Title</th>
+                            {{-- <th scope="col">Book Title</th> --}}
                             <th scope="col">Book Author</th>
                             <th scope="col">Book Categories</th>
                             <th scope="col">Actions</th>

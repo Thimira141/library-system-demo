@@ -100,6 +100,7 @@ class BooksController extends Controller
                 'book_title' => $validated['book_title'],
                 'book_author' => $validated['book_author'],
                 'book_added' => $validated['book_added'],
+                'book_summary' => $validated['book_summary'] ?? null,
                 'book_remarks' => $validated['book_remarks'] ?? null,
             ]);
 
@@ -163,6 +164,7 @@ class BooksController extends Controller
         $book->book_author = $validated['book_author'];
         $book->book_added = $validated['book_added'];
         $book->book_remarks = $validated['book_remarks'] ?? null;
+        $book->book_summary = $validated['book_summary'] ?? null;
 
         // Handle cover image replacement
         if (!empty($validated['book_cover_img'])) {
@@ -395,7 +397,7 @@ class BooksController extends Controller
         if ($validated['q']) {
             $query->whereAny(['book_id', 'book_title'], 'like', "%{$validated['q']}%");
         }
-        $books = $query->select(['id', 'book_id', 'book_title', 'book_author', 'book_cover_img'])->limit(20)->get();
+        $books = $query->select(['id', 'book_id', 'book_title', 'book_author', 'book_cover_img', 'book_summary'])->limit(20)->get();
         return response()->json($books);
     }
 
@@ -414,7 +416,8 @@ class BooksController extends Controller
             'book_title',
             'book_author',
             'book_cover_img',
-            'book_remarks'
+            'book_remarks',
+            'book_summary'
         ]);
         if ($book) {
             return response()->json([
@@ -466,6 +469,11 @@ class BooksController extends Controller
             'book_added' => [
                 'date',
                 'required',
+            ],
+            'book_summary' => [
+                'string',
+                'nullable',
+                'max:1000',
             ],
             'book_remarks' => [
                 'string',

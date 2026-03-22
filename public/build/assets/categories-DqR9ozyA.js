@@ -1,4 +1,4 @@
-import{j as a}from"./responsive.bootstrap5-C1HQbmS-.js";a(document).ready(function(){a("#categories-manage-categories-main-table").DataTable({processing:!0,serverSide:!0,searching:!0,ajax:window.routes.categoriesAjax,columns:[{data:"category_name",name:"category_name"},{data:"books_count",name:"books_count",className:"text-center"},{data:"id",orderable:!1,searchable:!1,render:function(e){return`
+import{j as a}from"./jquery.module-gzd0YkcT.js";import"./responsive.bootstrap5-D_HSXjOo.js";a(document).ready(function(){a("#categories-manage-categories-main-table").DataTable({processing:!0,serverSide:!0,searching:!0,ajax:window.routes.categoriesAjax,columns:[{data:"category_name",name:"category_name"},{data:"books_count",name:"books_count",className:"text-center"},{data:"id",orderable:!1,searchable:!1,render:function(e){return`
                         <a href="${window.routes.categoryEditView.replace(":id",e)}"
                             class="btn btn-sm btn-info"
                         >Edit</a>

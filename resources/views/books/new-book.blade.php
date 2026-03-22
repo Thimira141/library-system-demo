@@ -61,6 +61,10 @@
                     <input type="date" class="form-control" name="book_added" id="book_added" />
                 </div>
                 <div class="mb-3">
+                    <label for="book_summary" class="form-label">Summery</label>
+                    <textarea class="form-control" name="book_summary" id="book_summary" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
                     <label for="book_remarks" class="form-label">Remarks</label>
                     <textarea class="form-control" name="book_remarks" id="book_remarks" rows="3"></textarea>
                 </div>

@@ -1,3 +1,4 @@
+import $ from 'jquery';
 /**
  *  Cycle the button’s value and update its background class so it reflects the state
  * @param {string} elementIdentifier string that can locate element(s)
